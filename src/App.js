@@ -20,8 +20,8 @@ function App() {
 
   return (
     <main>
-      <NavBar />
-      <Tracks />
+      <NavBarContainer userTracks={userTracks} />
+      <UserTracks userTracks={userTracks} handleDelete={handleDelete} />
       <button className="add-btn" onClick={handleAdd}>
         +
       </button>
