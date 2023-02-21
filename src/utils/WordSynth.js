@@ -3,6 +3,8 @@
  */
 
 function WordSynth() {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
   /**
    * Shuffles array in place using the Fisher-Yates algorithm.
    * @param {Array} array
