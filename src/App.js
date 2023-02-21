@@ -4,18 +4,18 @@ import UserTracks from "./presentational/UserTracks";
 
 function App() {
   const defaultTrack = { ref: React.createRef(null), id: Date.now() };
-  const [allTracks, setAllTracks] = useState([defaultTrack]);
+  const [userTracks, setUserTracks] = useState([defaultTrack]);
   const handleAdd = (event) => {
     event.preventDefault();
     const newTrack = {
       ref: React.createRef(null),
       id: Date.now(),
     };
-    setAllTracks((prev) => [...prev, newTrack]);
+    setUserTracks((prev) => [...prev, newTrack]);
   };
 
   const handleDelete = (trackId) => {
-    setAllTracks((prev) => prev.filter((track) => track.id !== trackId));
+    setUserTracks((prev) => prev.filter((track) => track.id !== trackId));
   };
 
   return (
