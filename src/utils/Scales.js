@@ -1,5 +1,5 @@
 // Scales, add more if wanted.
-export const Amin_pent = [
+const Amin_pent = [
   "A2",
   "C3",
   "D3",
@@ -28,7 +28,7 @@ export const Amin_pent = [
   "A3",
 ];
 
-export const C_ionian = [
+const C_ionian = [
   "C2",
   "D2",
   "E2",
@@ -57,7 +57,7 @@ export const C_ionian = [
   "G3",
 ];
 
-export const D_dorian = [
+const D_dorian = [
   "D2",
   "E2",
   "F2",
@@ -86,7 +86,7 @@ export const D_dorian = [
   "A3",
 ];
 
-export const E_phrygian = [
+const E_phrygian = [
   "E2",
   "F2",
   "G2",
@@ -115,7 +115,7 @@ export const E_phrygian = [
   "B3",
 ];
 
-export const F_lydian = [
+const F_lydian = [
   "F2",
   "G2",
   "A2",
@@ -144,7 +144,7 @@ export const F_lydian = [
   "C3",
 ];
 
-export const G_mixolydian = [
+const G_mixolydian = [
   "G2",
   "A2",
   "B2",
@@ -173,7 +173,7 @@ export const G_mixolydian = [
   "D4",
 ];
 
-export const A_aeolian = [
+const A_aeolian = [
   "A2",
   "B2",
   "C3",
@@ -202,7 +202,7 @@ export const A_aeolian = [
   "E4",
 ];
 
-export const B_locrian = [
+const B_locrian = [
   "B2",
   "C3",
   "D3",
@@ -229,4 +229,15 @@ export const B_locrian = [
   "D4",
   "E4",
   "F4",
+];
+
+export const scales = [
+  { name: "A Minor Pentatonic", scale: Amin_pent },
+  { name: "C Ionian", scale: C_ionian },
+  { name: "D Dorian", scale: D_dorian },
+  { name: "E Phrygian", scale: E_phrygian },
+  { name: "F Lydian", scale: F_lydian },
+  { name: "G Mixolydian", scale: G_mixolydian },
+  { name: "A Aeolian", scale: A_aeolian },
+  { name: "B Locrian", scale: B_locrian },
 ];
