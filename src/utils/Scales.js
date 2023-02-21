@@ -231,6 +231,8 @@ const B_locrian = [
   "F4",
 ];
 
+export const defaultScale = [...Amin_pent];
+
 export const scales = [
   { name: "A Minor Pentatonic", scale: Amin_pent },
   { name: "C Ionian", scale: C_ionian },
