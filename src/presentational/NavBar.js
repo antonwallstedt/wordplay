@@ -11,8 +11,12 @@ function NavBar() {
         Stop
       </button>
       <h2 className="scale-heading">Scale: </h2>
-      <select className="scale-select">
-        /* TODO: map over util/Scales and populate dropdown */
+      <select className="scale-select" onChange={(e) => handleScaleSelect(e)}>
+        {scales.map(({ name, scale }) => (
+          <option value={scale} key={name}>
+            {name}
+          </option>
+        ))}
       </select>
       <h2 className="bpm-heading">BPM: </h2>
       <input
