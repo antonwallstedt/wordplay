@@ -1,16 +1,17 @@
 /**
- * Function component library for synthesising sound from words.
+ * Class component library for synthesising sound from words.
  */
-
-function WordSynth() {
-  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+class WordSynth {
+  constructor() {
+    this.alphabet = "abcdefghijklmnopqrstuvwxyz";
+  }
 
   /**
    * Shuffles array in place using the Fisher-Yates algorithm.
    * @param {Array} array
    * @returns {Array} shuffled array
    */
-  const shuffle = (a) => {
+  shuffle(a) {
     let j, x, i;
     for (i = a.length - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
@@ -19,33 +20,34 @@ function WordSynth() {
       a[j] = x;
     }
     return a;
-  };
+  }
 
   /**
    * Converts a string into notes.
    * @param {String} word
    * @returns {Array} array of notes
    */
-  const getNotes = (word) => {
+  getNotes(word, scale) {
     let letterIndices = [];
     for (const letter of word.split("")) {
-      letterIndices.push(scale[alphabet.indexOf(letter)]);
+      letterIndices.push(scale[this.alphabet.indexOf(letter)]);
     }
 
     if (letterIndices.length > 0) {
       // Reducing longer words to fewer (random) notes
       if (letterIndices.length > 3)
-        letterIndices = shuffle(letterIndices).slice(0, Math.random() * 3);
+        letterIndices = this.shuffle(letterIndices).slice(0, Math.random() * 3);
       return letterIndices;
     }
-  };
+  }
 
   /**
    * Takes in the user input and converts each input to an array of notes.
    * @param {Array} userInput
+   * @param {Array} scale notes from a scale as long as the English alphabet (26)
    * @returns array of notes
    */
-  const parseInput = (userInput) => {
+  parseInput(userInput, scale) {
     // Users may have supplied multiple tracks, so we
     // parse each track separately and store in a 2D array.
     let userInputList = [];
@@ -58,12 +60,12 @@ function WordSynth() {
     for (const inputWords of userInputList) {
       let inputNotes = [];
       for (const word of inputWords) {
-        if (word) inputNotes.push(getNotes(word)); // TODO: Assertion on mapScale
+        if (word) inputNotes.push(this.getNotes(word, scale)); // TODO: Assertion on mapScale
       }
       notes.push(inputNotes);
     }
     return notes;
-  };
+  }
 }
 
 export default WordSynth;
