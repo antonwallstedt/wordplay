@@ -1,4 +1,9 @@
-function Synthesiser() {
+/**
+ * Synthesiser.js
+ * Function component for managing sound synthesis from words.
+ */
+
+function WordSynth() {
   /**
    * Shuffles array in place using the Fisher-Yates algorithm.
    * @param {Array} array
@@ -60,4 +65,4 @@ function Synthesiser() {
   };
 }
 
-export default Synthesiser;
+export default WordSynth;
