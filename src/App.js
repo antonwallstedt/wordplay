@@ -1,8 +1,30 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useState } from "react";
 
 function App() {
-  return <h1>Hello World</h1>;
+  const defaultTrack = { ref: React.createRef(null), id: Date.now() };
+  const [allTracks, setAllTracks] = useState([defaultTrack]);
+  const handleAdd = (event) => {
+    event.preventDefault();
+    const newTrack = {
+      ref: React.createRef(null),
+      id: Date.now(),
+    };
+    setAllTracks((prev) => [...prev, newTrack]);
+  };
+
+  const handleDelete = (trackId) => {
+    setAllTracks((prev) => prev.filter((track) => track.id !== trackId));
+  };
+
+  return (
+    <main>
+      <NavBar />
+      <Tracks />
+      <button className="add-btn" onClick={handleAdd}>
+        +
+      </button>
+    </main>
+  );
 }
 
 export default App;
