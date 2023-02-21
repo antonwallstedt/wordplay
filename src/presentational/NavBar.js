@@ -8,7 +8,7 @@ function NavBar(props) {
       <button className="media-button play-button" onClick={handlePlay}>
         Play
       </button>
-      <button className="media-button stop-button" onClick={() => handleStop()}>
+      <button className="media-button stop-button" onClick={handleStop}>
         Stop
       </button>
       <h2 className="scale-heading">Scale: </h2>
