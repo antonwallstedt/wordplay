@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import NavBarContainer from "./containers/NavBarContainer";
+import UserTracks from "./presentational/UserTracks";
 
 function App() {
   const defaultTrack = { ref: React.createRef(null), id: Date.now() };
