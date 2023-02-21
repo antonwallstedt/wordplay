@@ -1,6 +1,7 @@
-function NavBar() {
-  // TODO: pass appropriate props from container
-  // - handlePlay, handleStop, handleBpmChange, scales (?)
+import { scales } from "../utils/Scales";
+
+function NavBar(props) {
+  const { handlePlay, handleStop, handleBpmChange, handleScaleSelect } = props;
   return (
     <div className="navbar">
       <h1>WordPlay</h1>
