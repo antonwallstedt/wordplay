@@ -1,6 +1,5 @@
 /**
- * Synthesiser.js
- * Function component for managing sound synthesis from words.
+ * Function component library for synthesising sound from words.
  */
 
 function WordSynth() {
