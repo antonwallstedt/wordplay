@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import NavBarContainer from "./containers/NavBarContainer";
 import UserTracks from "./presentational/UserTracks";
 
+/**
+ * Main App file for rendering all the components.
+ * @returns all JSX components.
+ */
 function App() {
   const defaultTrack = { ref: React.createRef(null), id: Date.now() };
   const [userTracks, setUserTracks] = useState([defaultTrack]);
