@@ -6,7 +6,7 @@ import * as Tone from "tone";
 
 /**
  * Container component for the NavBar.
- * @param {UserTracks} param0
+ * @param {*} UserTracks component
  * @returns NavBar presentational component
  */
 function NavBarContainer({ userTracks }) {
