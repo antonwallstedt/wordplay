@@ -1,4 +1,9 @@
-// Scales, add more if wanted.
+/**
+ * Scales utility file for defining arrays containing notes from different scales.
+ * Each array must be exactly 26 letters long (length of alphabet) such that
+ * each letter of the alphabet can map to a note.
+ */
+
 const Amin_pent = [
   "A2",
   "C3",

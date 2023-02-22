@@ -4,10 +4,17 @@ import { defaultScale } from "../utils/Scales";
 import NavBar from "../presentational/NavBar";
 import * as Tone from "tone";
 
+/**
+ * Container component for the NavBar.
+ * @param {UserTracks} param0
+ * @returns NavBar presentational component
+ */
 function NavBarContainer({ userTracks }) {
+  const [scale, setScale] = useState(defaultScale);
+  const [bpm, setBpm] = useState(120);
+  const wordSynth = new WordSynth();
   var userInput = [];
   var sequences = [];
-  const wordSynth = new WordSynth();
 
   /**
    * Sets BPM and plays back user input
@@ -31,8 +38,6 @@ function NavBarContainer({ userTracks }) {
     sequences = [];
   };
 
-  // TODO: Check how default init works...
-  const [scale, setScale] = useState(defaultScale);
   /**
    * Changes the scale used in `getNote`.
    * @param {*} target the option the user has selected
@@ -44,7 +49,6 @@ function NavBarContainer({ userTracks }) {
     setScale(target.value.split(","));
   };
 
-  const [bpm, setBpm] = useState(120);
   /**
    * Changes the bpm of `Tone.Transport`
    * @param {*} target the target input field for setting BPM
@@ -69,7 +73,6 @@ function NavBarContainer({ userTracks }) {
     Tone.Transport.start();
   };
 
-  // TODO: Return NavBar presentational component passing props as needed.
   return (
     <NavBar
       handlePlay={handlePlay}

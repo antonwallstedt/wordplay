@@ -1,5 +1,11 @@
 import { scales } from "../utils/Scales";
 
+/**
+ * NavBar presentational component. Takes the event handlers from
+ * the container component to attach to appropriate JSX elements.
+ * @param {*} props
+ * @returns JSX NavBar
+ */
 function NavBar(props) {
   const { handlePlay, handleStop, handleBpmChange, handleScaleSelect } = props;
   return (
