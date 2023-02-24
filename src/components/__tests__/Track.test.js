@@ -6,8 +6,10 @@ afterEach(() => {
   cleanup();
 });
 
-test("Should render Track component", () => {
-  render(<Track />);
-  const trackElement = screen.queryByTestId("track-test");
-  expect(trackElement).toBeInTheDocument();
+describe("Track Component renders everything it should", () => {
+  test("Should render Track component", () => {
+    render(<Track />);
+    const trackElement = screen.queryByTestId("track-test");
+    expect(trackElement).toBeInTheDocument();
+  });
 });
