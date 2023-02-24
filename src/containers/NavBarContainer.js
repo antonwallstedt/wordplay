@@ -60,7 +60,7 @@ function NavBarContainer({ userTracks }) {
   const playInput = (userInput) => {
     let noteSequences = wordSynth.parseInput(userInput, scale);
     const synth = new Tone.Synth();
-    const freeverb = new Tone.Freeverb(0.2).toDestination();
+    const freeverb = new Tone.Freeverb(0.2).toDestination(); // Reverb
     for (const i in noteSequences) {
       const seq = new Tone.Sequence((time, note) => {
         synth.triggerAttackRelease(note, 0.3, time).connect(freeverb);
