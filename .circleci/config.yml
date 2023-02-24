@@ -26,8 +26,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Install packages"
-          command: "npm i --save-dev @testing-library/react react-test-renderer"
+          name: "Install dependencies"
+          command: "npm install"
       - run:
           name: "Unit Tests"
           command: "npm run test --passWithNoTests"
