@@ -6,8 +6,19 @@ import React from "react";
  * @returns input field with ref for retrieving user input
  */
 function Track({ inputRef }) {
+  const inputStyle = {
+    width: "100%",
+    fontSize: 20,
+    textIndent: 20,
+  };
+
   return (
-    <input data-testid="track-test" className="user-track" ref={inputRef} />
+    <input
+      data-testid="track-test"
+      className="user-track"
+      ref={inputRef}
+      style={inputStyle}
+    />
   );
 }
 

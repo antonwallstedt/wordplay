@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WordSynth from "../utils/WordSynth";
 import { defaultScale } from "../utils/Scales";
 import NavBar from "../presentational/NavBar";
