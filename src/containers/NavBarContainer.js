@@ -58,6 +58,15 @@ function NavBarContainer({ userTracks }) {
     setBpm(target.value);
   };
 
+  /**
+   * Flashes an HTML element for a split second to indicate that a note is played.
+   */
+  const [background, setBackground] = useState("red");
+  const flash = () => {
+    setTimeout(() => setBackground("red"), 30);
+    setBackground("green");
+  };
+
   const playInput = (userInput) => {
     let noteSequences = wordSynth.parseInput(userInput, scale);
     const synth = new Tone.Synth();
@@ -65,9 +74,9 @@ function NavBarContainer({ userTracks }) {
     for (const i in noteSequences) {
       const seq = new Tone.Sequence((time, note) => {
         synth.triggerAttackRelease(note, 0.3, time).connect(freeverb);
+        flash();
       }, noteSequences[i]);
       sequences.push(seq);
-
       // Start consecutive tracks i whole notes after previous track
       seq.start(i == 0 ? 0 : `${i}n`);
     }
@@ -75,12 +84,15 @@ function NavBarContainer({ userTracks }) {
   };
 
   return (
-    <NavBar
-      handlePlay={handlePlay}
-      handleStop={handleStop}
-      handleBpmChange={handleBpmChange}
-      handleScaleSelect={handleScaleSelect}
-    />
+    <>
+      <NavBar
+        handlePlay={handlePlay}
+        handleStop={handleStop}
+        handleBpmChange={handleBpmChange}
+        handleScaleSelect={handleScaleSelect}
+      />
+      <div style={{ background: background }}>Metronome</div>
+    </>
   );
 }
 
