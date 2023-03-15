@@ -32,6 +32,7 @@ function NavBarContainer({ userTracks }) {
    * Disposes sequence(s) of user input.
    */
   const handleStop = () => {
+    Tone.Transport.cancel();
     for (const sequence of sequences) {
       sequence.dispose();
     }
