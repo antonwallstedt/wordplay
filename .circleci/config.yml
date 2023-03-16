@@ -28,22 +28,12 @@ jobs:
       - run:
           name: Update NPM
           command: "sudo npm install -g npm"
-      #- restore_cache:
-      #    key: dependency-cache-{{ checksum "package-lock.json "}}
       - run:
           name: Install Dependencies
           command: npm install
-      #- save_cache:
-      #    key: dependency-cache-{{ checksum "package-lock.json "}}
-      #    paths:
-      #      - ./node_modules
       - run:
           name: Build React App
           command: CI=false npm run build
-      #- save_cache:
-      #    key: app-build-cache-{{ .Branch }}
-      #    paths:
-      #      - ./build
   deploy:
     working_directory: ~/repo
     docker:
@@ -51,7 +41,8 @@ jobs:
     steps:
       - run:
           name: Deploy to Netlify
-          command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
+          command: ls -l ./node_modules/.bin/netlify
+          # command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
 
 
 
