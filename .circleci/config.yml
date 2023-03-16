@@ -39,9 +39,10 @@ jobs:
     docker:
       - image: cimg/node:16.13.2
     steps:
+      - checkout
       - run:
           name: Deploy to Netlify
-          command: ls -l ./node_modules/.bin/netlify
+          command: ls
           # command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
 
 
