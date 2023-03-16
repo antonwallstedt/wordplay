@@ -44,9 +44,15 @@ jobs:
       #    key: app-build-cache-{{ .Branch }}
       #    paths:
       #      - ./build
+  deploy:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/node:16.13.2
+    steps:
       - run:
           name: Deploy to Netlify
           command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
+
 
 
 # Invoke jobs via workflows
@@ -58,6 +64,13 @@ workflows:
       - build:
           requires:
             - node/test
+          filters:
+            branches:
+              only:
+                - main
+      - deploy:
+          requires:
+            - build
           filters:
             branches:
               only:
