@@ -18,52 +18,13 @@ jobs:
           command: "npm install"
       - run:
           name: "Unit Tests"
-          command: "npm run test --passWithNoTests"
-  build:
-    working_directory: ~/repo
-    docker:
-      - image: cimg/node:16.13.2
-    steps:
-      - checkout
-      - run:
-          name: Update NPM
-          command: "sudo npm install -g npm"
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - run:
-          name: Build React App
-          command: CI=false npm run build
-  deploy:
-    working_directory: ~/repo
-    docker:
-      - image: cimg/node:16.13.2
-    steps:
-      - checkout
-      - run:
-          name: Deploy to Netlify
-          command: ls
-          # command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=build
+          command: "npm run test"
 
 
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  test-build-deploy:
+  unit-tests:
     jobs:
       - node/test
-      - build:
-          requires:
-            - node/test
-          filters:
-            branches:
-              only:
-                - main
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - main
