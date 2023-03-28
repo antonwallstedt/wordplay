@@ -8,10 +8,12 @@ function Track() {
     transition: "all 1s",
     borderRadius: "10px",
     fontSize: "20px",
+    backgroundColor: "rgb(40,40,40)",
+    border: "2px solid rgb(35,35,35)",
   };
 
   const divStyle = {
-    backgroundColor: "black",
+    backgroundColor: "rgb(30,30,30)",
     padding: "40px",
     borderRadius: "20px",
     transition: "all 1s",
@@ -26,6 +28,7 @@ function Track() {
   const handleChange = ({ target }) => {
     setText(target.value);
   };
+
   return (
     <div className="track-container" style={divStyle}>
       <p style={paragraphStyle}>{text}</p>
