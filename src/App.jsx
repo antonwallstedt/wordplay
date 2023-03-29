@@ -10,6 +10,7 @@ function Track() {
     fontSize: "20px",
     backgroundColor: "rgb(40,40,40)",
     border: "2px solid rgb(35,35,35)",
+    marginTop: "10px",
   };
 
   const divStyle = {
@@ -19,11 +20,25 @@ function Track() {
     transition: "all 1s",
   };
 
-  const paragraphStyle = {
+  const spanStyle = {
     fontFamily: "Courier",
     fontSize: "30px",
+    marginRight: "5px",
+    marginLeft: "5px",
+    borderRadius: "5px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   };
 
+  const paragraphContainerStyle = {
+    borderRadius: "5px",
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+  };
+
+  // * Event Handlers
   const [text, setText] = useState("");
   const handleChange = ({ target }) => {
     setText(target.value);
