@@ -55,18 +55,30 @@ function Track() {
 
   const handlePlay = (input) => {
     Tone.Transport.bpm.value = 90; // TODO: Allow setting this yourself
-    let noteSequence = wordSynth.parseInput(input, defaultScale);
+    const inputSequence = wordSynth.parseInput(input, defaultScale);
+    const notes = inputSequence.map((obj) => obj.note);
+    const lenArr = inputSequence.map((obj) => obj.len);
+    let lenIndex = 0;
+
     const synth = new Tone.Synth();
     const freeverb = new Tone.Freeverb(0.2).toDestination();
     sequence = new Tone.Sequence((time, note) => {
-      synth.triggerAttackRelease(note, 0.3, time).connect(freeverb);
+      synth
+        .triggerAttackRelease(
+          note,
+          lenArr[lenIndex] * 0.05, // Release depends on length of word
+          time,
+          lenArr[lenIndex] * 0.1 // Velocity also depends on length of word
+        )
+        .connect(freeverb);
       Tone.Draw.schedule(() => {
+        lenIndex = (lenIndex + 1) % lenArr.length;
         setCurrentWordIndex((currentIndex) => {
-          let nextIndex = (currentIndex + 1) % noteSequence.length;
+          let nextIndex = (currentIndex + 1) % notes.length;
           return nextIndex;
         });
       }, time);
-    }, noteSequence);
+    }, notes);
     sequence.start(0);
     Tone.Transport.start();
   };
