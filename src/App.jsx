@@ -37,6 +37,9 @@ function Track() {
         onChange={handleChange}
         style={inputStyle}
       />
+      <button className="btn-play" style={{ marginTop: 10 }}>
+        Play
+      </button>
     </div>
   );
 }
