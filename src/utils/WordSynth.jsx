@@ -35,7 +35,7 @@ class WordSynth {
   parseInput(userInput, scale) {
     let inputNotes = [];
     for (const word of userInput.trim().split(" ")) {
-      inputNotes.push(this.getNotes(word, scale));
+      inputNotes.push({ len: word.length, note: this.getNotes(word, scale) });
     }
     return inputNotes;
   }
