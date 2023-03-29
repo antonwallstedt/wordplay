@@ -77,9 +77,22 @@ function Track() {
         style={inputStyle}
         maxLength={64}
       />
-      <button className="btn-play" style={{ marginTop: 10 }}>
-        Play
-      </button>
+      <div className="media-btn-container">
+        <button
+          className="btn-play"
+          style={{ marginTop: 10, marginRight: 5 }}
+          onClick={() => handlePlay(text)}
+        >
+          Play
+        </button>
+        <button
+          className="btn-stop"
+          style={{ marginTop: 10, marginLeft: 5 }}
+          onClick={handleStop}
+        >
+          Stop
+        </button>
+      </div>
     </div>
   );
 }
