@@ -68,11 +68,14 @@ function Track() {
   // * HTML
   return (
     <div className="track-container" style={divStyle}>
-      <p style={paragraphStyle}>{text}</p>
-      <textarea
+      <div className="paragraph-container" style={paragraphContainerStyle}>
+        {text.split(" ").map((word, index) => highlightWord(word, index))}
+      </div>
+      <input
         className="track-input"
         onChange={handleChange}
         style={inputStyle}
+        maxLength={64}
       />
       <button className="btn-play" style={{ marginTop: 10 }}>
         Play
