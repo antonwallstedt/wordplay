@@ -5,6 +5,12 @@ import * as Tone from "tone";
 import "./App.css";
 
 function Track() {
+  // * Constants
+  let sequence;
+  const wordSynth = new WordSynth();
+  const [currentWordIndex, setCurrentWordIndex] = useState(-1);
+
+  // * Styles
   const inputStyle = {
     width: "100%",
     height: "100%",
