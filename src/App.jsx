@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { defaultScale } from "./utils/Scales";
+import WordSynth from "./utils/WordSynth";
+import * as Tone from "tone";
 import "./App.css";
 
 function Track() {
