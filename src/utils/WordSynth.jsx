@@ -21,19 +21,18 @@ class WordSynth {
   getNotes(word, scale) {
     let letterIndices = [];
     for (const letter of word) {
-      letterIndices.push(scale[this.alphabet.indexOf(letter)]);
+      console.log(scale[this.alphabet.indexOf(letter)]);
+      letterIndices.push(this.alphabet.indexOf(letter));
     }
-
-    if (letterIndices.length > 0) {
-      // Reducing longer words to fewer (random) notes
-      if (letterIndices.length > 3)
-        letterIndices = this.shuffle(letterIndices).slice(0, Math.random() * 3);
-      return letterIndices;
-    }
+    return scale[
+      Math.floor(
+        // Average the indices and return one note
+        letterIndices.reduce((a, b) => a + b) / letterIndices.length
+      )
+    ];
   }
 
   parseInput(userInput, scale) {
-    console.log(userInput);
     let inputNotes = [];
     for (const word of userInput.trim().split(" ")) {
       inputNotes.push(this.getNotes(word, scale));
