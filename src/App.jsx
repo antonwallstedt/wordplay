@@ -6,7 +6,7 @@ import "./App.css";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { IconButton } from "@chakra-ui/react";
 
-function Track({ id, onDelete, isPlayingAll }) {
+function Track({ id, onDelete, isPlayingAll, inputText }) {
   // TODO: Allow instrument selection in individual tracks
   // TODO: Allow users to set BPM
   // TODO: Fix buggy play all functionality
@@ -16,10 +16,12 @@ function Track({ id, onDelete, isPlayingAll }) {
   // TODO:  - Press play all when tracks are playing
 
   // * Constants
-  let sequence;
+  let sequence = new Tone.Sequence(); // TODO: Don't init to empty sequence...
   const wordSynth = new WordSynth();
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [instrument, setInstrument] = useState(null);
+  const [text, setText] = useState(inputText);
 
   // * Styles
   const inputStyle = {
@@ -61,7 +63,6 @@ function Track({ id, onDelete, isPlayingAll }) {
   };
 
   // * Event Handlers
-  const [text, setText] = useState("");
   const handleChange = ({ target }) => {
     setText(target.value);
   };
@@ -71,10 +72,15 @@ function Track({ id, onDelete, isPlayingAll }) {
   };
 
   useEffect(() => {
-    if (isPlayingAll) {
+    if (isPlayingAll && !isPlaying) {
+      setIsPlaying(true);
       handlePlay(text);
     } else {
-      setCurrentWordIndex(-1);
+      sequence.stop();
+      setIsPlaying(false);
+      setCurrentWordIndex(() => {
+        return -1;
+      });
     }
   }, [isPlayingAll]);
 
@@ -105,12 +111,17 @@ function Track({ id, onDelete, isPlayingAll }) {
       }, time);
     }, notes);
     sequence.start(0);
+    setIsPlaying(true);
     Tone.Transport.start();
   };
 
   const handleStop = () => {
-    setCurrentWordIndex(-1);
-    Tone.Transport.cancel();
+    sequence.stop();
+    setIsPlaying(false);
+    setCurrentWordIndex(() => {
+      return -1;
+    });
+    // Tone.Transport.cancel();
   };
 
   // * Functions
@@ -145,6 +156,7 @@ function Track({ id, onDelete, isPlayingAll }) {
           onChange={handleChange}
           style={inputStyle}
           maxLength={64}
+          placeholder={inputText}
         />
         <div className="media-btn-container">
           <button
@@ -178,6 +190,15 @@ function Track({ id, onDelete, isPlayingAll }) {
 }
 
 function App() {
+  const defaultTracks = [
+    { key: 0, id: Date.now(), text: "Hello my name is Anton" },
+    {
+      key: 1,
+      id: Date.now(),
+      text: "These are temporary placeholders",
+    },
+  ];
+
   const addBtnStyle = {
     marginTop: 10,
   };
@@ -216,10 +237,9 @@ function App() {
     setTracks((prev) => prev.filter((track) => track.id !== trackId));
   };
 
-  const defaultTrack = { key: 0, id: Date.now() };
-  const [tracks, setTracks] = useState([defaultTrack]);
+  const [tracks, setTracks] = useState(defaultTracks);
   const handleAdd = () => {
-    setTracks([...tracks, { key: tracks.length, id: Date.now() }]);
+    setTracks([...tracks, { key: tracks.length, id: Date.now(), text: "" }]);
   };
 
   return (
@@ -246,6 +266,7 @@ function App() {
           id={track.id}
           onDelete={handleDelete}
           isPlayingAll={isPlayingAll}
+          inputText={track.text}
         />
       ))}
       <button className="add-track-btn" style={addBtnStyle} onClick={handleAdd}>
