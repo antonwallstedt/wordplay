@@ -3,12 +3,15 @@ import { defaultScale } from "./utils/Scales";
 import WordSynth from "./utils/WordSynth";
 import * as Tone from "tone";
 import "./App.css";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { IconButton } from "@chakra-ui/react";
 
 function Track() {
   // * Constants
   let sequence;
   const wordSynth = new WordSynth();
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
+  const [instrument, setInstrument] = useState(null); // TODO: Set init to an instrument
 
   // * Styles
   const inputStyle = {
@@ -27,6 +30,8 @@ function Track() {
     padding: "40px",
     borderRadius: "20px",
     transition: "all 1s",
+    marginTop: 20,
+    width: "100%",
   };
 
   const spanStyle = {
@@ -34,7 +39,7 @@ function Track() {
     fontSize: "30px",
     marginRight: "5px",
     marginLeft: "5px",
-    borderRadius: "5px",
+    borderRadius: 15,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -103,31 +108,39 @@ function Track() {
 
   // * HTML
   return (
-    <div className="track-container" style={divStyle}>
-      <div className="paragraph-container" style={paragraphContainerStyle}>
-        {text.split(" ").map((word, index) => highlightWord(word, index))}
-      </div>
-      <input
-        className="track-input"
-        onChange={handleChange}
-        style={inputStyle}
-        maxLength={64}
-      />
-      <div className="media-btn-container">
-        <button
-          className="btn-play"
-          style={{ marginTop: 10, marginRight: 5 }}
-          onClick={() => handlePlay(text)}
-        >
-          Play
-        </button>
-        <button
-          className="btn-stop"
-          style={{ marginTop: 10, marginLeft: 5 }}
-          onClick={handleStop}
-        >
-          Stop
-        </button>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: 600,
+      }}
+    >
+      <div className="track-container" style={divStyle}>
+        <div className="paragraph-container" style={paragraphContainerStyle}>
+          {text.split(" ").map((word, index) => highlightWord(word, index))}
+        </div>
+        <input
+          className="track-input"
+          onChange={handleChange}
+          style={inputStyle}
+          maxLength={64}
+        />
+        <div className="media-btn-container">
+          <button
+            className="btn-play"
+            style={{ marginTop: 10, marginRight: 5, float: "left" }}
+            onClick={() => handlePlay(text)}
+          >
+            Play
+          </button>
+          <button
+            className="btn-stop"
+            style={{ marginTop: 10, marginLeft: 5, float: "left" }}
+            onClick={handleStop}
+          >
+            Stop
+          </button>
           <IconButton
             aria-label="delete-btn"
             icon={<DeleteIcon />}
@@ -144,10 +157,48 @@ function Track() {
 }
 
 function App() {
+  const addBtnStyle = {
+    marginTop: 10,
+  };
+
+  const navbarStyle = {
+    backgroundColor: "rgb(15,15,15)",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "5%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const btnStyle = {
+    marginLeft: 5,
+    marginRight: 5,
+  };
+
+  const defaultTrack = <Track key={0} />;
+  const [tracks, setTracks] = useState([defaultTrack]);
+  const handleAdd = () => {
+    setTracks([...tracks, <Track key={tracks.length} />]);
+  };
+
   return (
-    <div>
-      <Track />
-    </div>
+    <>
+      <div className="navbar" style={navbarStyle}>
+        <button className="play-all-btn" style={btnStyle}>
+          Play All
+        </button>
+        <button className="stop-all-btn" style={btnStyle}>
+          Stop All
+        </button>
+      </div>
+      {tracks}
+      <button className="add-track-btn" style={addBtnStyle} onClick={handleAdd}>
+        Add Track
+      </button>
+    </>
   );
 }
 
