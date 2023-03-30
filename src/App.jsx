@@ -128,6 +128,16 @@ function Track() {
         >
           Stop
         </button>
+          <IconButton
+            aria-label="delete-btn"
+            icon={<DeleteIcon />}
+            mt={10}
+            pl={5}
+            pr={5}
+            float="right"
+            height="35px"
+          />
+        </div>
       </div>
     </div>
   );

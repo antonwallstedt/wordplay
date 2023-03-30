@@ -21,7 +21,6 @@ class WordSynth {
   getNotes(word, scale) {
     let letterIndices = [];
     for (const letter of word) {
-      console.log(scale[this.alphabet.indexOf(letter)]);
       letterIndices.push(this.alphabet.indexOf(letter));
     }
     return scale[
