@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { defaultScale } from "./utils/Scales";
 import WordSynth from "./utils/WordSynth";
 import * as Tone from "tone";
@@ -6,12 +6,20 @@ import "./App.css";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { IconButton } from "@chakra-ui/react";
 
-function Track({ id, onDelete }) {
+function Track({ id, onDelete, isPlayingAll }) {
+  // TODO: Allow instrument selection in individual tracks
+  // TODO: Allow users to set BPM
+  // TODO: Fix buggy play all functionality
+  // TODO: Handle edge cases
+  // TODO:  - Double spaces in input
+  // TODO:  - Invalid characters
+  // TODO:  - Press play all when tracks are playing
+
   // * Constants
   let sequence;
   const wordSynth = new WordSynth();
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
-  const [instrument, setInstrument] = useState(null); // TODO: Set init to an instrument
+  const [instrument, setInstrument] = useState(null);
 
   // * Styles
   const inputStyle = {
@@ -62,8 +70,16 @@ function Track({ id, onDelete }) {
     onDelete(id);
   };
 
+  useEffect(() => {
+    if (isPlayingAll) {
+      handlePlay(text);
+    } else {
+      setCurrentWordIndex(-1);
+    }
+  }, [isPlayingAll]);
+
   const handlePlay = (input) => {
-    Tone.Transport.bpm.value = 90; // TODO: Allow setting this yourself
+    Tone.Transport.bpm.value = 90;
     const inputSequence = wordSynth.parseInput(input, defaultScale);
     const notes = inputSequence.map((obj) => obj.note);
     const lenArr = inputSequence.map((obj) => obj.len);
@@ -117,7 +133,7 @@ function Track({ id, onDelete }) {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        width: 600,
+        width: "100%",
       }}
     >
       <div className="track-container" style={divStyle}>
@@ -176,11 +192,23 @@ function App() {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 10,
+    paddingBottom: 10,
   };
 
   const btnStyle = {
     marginLeft: 5,
     marginRight: 5,
+  };
+
+  const [isPlayingAll, setIsPlayingAll] = useState(false);
+  const handlePlayAll = () => {
+    setIsPlayingAll(true);
+  };
+
+  const handleStopAll = () => {
+    Tone.Transport.cancel();
+    setIsPlayingAll(false);
   };
 
   const handleDelete = (trackId) => {
@@ -197,15 +225,28 @@ function App() {
   return (
     <>
       <div className="navbar" style={navbarStyle}>
-        <button className="play-all-btn" style={btnStyle}>
+        <button
+          className="play-all-btn"
+          style={btnStyle}
+          onClick={handlePlayAll}
+        >
           Play All
         </button>
-        <button className="stop-all-btn" style={btnStyle}>
+        <button
+          className="stop-all-btn"
+          style={btnStyle}
+          onClick={handleStopAll}
+        >
           Stop All
         </button>
       </div>
       {tracks.map((track) => (
-        <Track key={track.key} id={track.id} onDelete={handleDelete} />
+        <Track
+          key={track.key}
+          id={track.id}
+          onDelete={handleDelete}
+          isPlayingAll={isPlayingAll}
+        />
       ))}
       <button className="add-track-btn" style={addBtnStyle} onClick={handleAdd}>
         Add Track
