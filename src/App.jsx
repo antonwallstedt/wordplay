@@ -276,4 +276,28 @@ function App() {
   );
 }
 
+// * Styling
+const addBtnStyle = {
+  marginTop: 10,
+};
+
+const navbarStyle = {
+  backgroundColor: "rgb(30,30,30)",
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "5%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  paddingTop: 10,
+  paddingBottom: 10,
+};
+
+const btnStyle = {
+  marginLeft: 5,
+  marginRight: 5,
+};
+
 export default App;
