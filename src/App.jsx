@@ -6,7 +6,7 @@ import "./App.css";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { IconButton } from "@chakra-ui/react";
 
-function Track() {
+function Track({ id, onDelete }) {
   // * Constants
   let sequence;
   const wordSynth = new WordSynth();
@@ -56,6 +56,10 @@ function Track() {
   const [text, setText] = useState("");
   const handleChange = ({ target }) => {
     setText(target.value);
+  };
+
+  const handleDelete = () => {
+    onDelete(id);
   };
 
   const handlePlay = (input) => {
@@ -149,6 +153,7 @@ function Track() {
             pr={5}
             float="right"
             height="35px"
+            onClick={handleDelete}
           />
         </div>
       </div>
@@ -162,7 +167,7 @@ function App() {
   };
 
   const navbarStyle = {
-    backgroundColor: "rgb(15,15,15)",
+    backgroundColor: "rgb(30,30,30)",
     position: "absolute",
     top: 0,
     left: 0,
@@ -178,10 +183,15 @@ function App() {
     marginRight: 5,
   };
 
-  const defaultTrack = <Track key={0} />;
+  const handleDelete = (trackId) => {
+    console.log(tracks);
+    setTracks((prev) => prev.filter((track) => track.id !== trackId));
+  };
+
+  const defaultTrack = { key: 0, id: Date.now() };
   const [tracks, setTracks] = useState([defaultTrack]);
   const handleAdd = () => {
-    setTracks([...tracks, <Track key={tracks.length} />]);
+    setTracks([...tracks, { key: tracks.length, id: Date.now() }]);
   };
 
   return (
@@ -194,7 +204,9 @@ function App() {
           Stop All
         </button>
       </div>
-      {tracks}
+      {tracks.map((track) => (
+        <Track key={track.key} id={track.id} onDelete={handleDelete} />
+      ))}
       <button className="add-track-btn" style={addBtnStyle} onClick={handleAdd}>
         Add Track
       </button>
