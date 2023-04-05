@@ -206,4 +206,16 @@ const paragraphContainerStyle = {
   display: "flex",
 };
 
+const selectStyle = {
+  float: "left",
+  height: 40,
+  width: 125,
+  marginLeft: 10,
+  marginTop: 10,
+  borderRadius: 10,
+  border: "none",
+  backgroundColor: "rgb(25,25,25)",
+  textIndent: "10px",
+};
+
 export default Track;
