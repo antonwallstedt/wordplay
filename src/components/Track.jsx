@@ -17,7 +17,6 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
   // TODO:  - Press play all when tracks are playing
 
   // * Constants
-  let sequence; // TODO: Don't init to empty sequence...
   const wordSynth = new WordSynth();
 
   // Words in paragraph are 0-indexed, so start from -1 so when next
@@ -50,7 +49,6 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
       handlePlay(text);
     } else {
       setIsPlaying(false);
-      setCurrentWordIndex(0);
     }
   }, [isPlayingAll]);
 
@@ -90,7 +88,6 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
   };
 
   const handleStop = () => {
-    console.log(sequence);
     setIsPlaying(false);
     setCurrentWordIndex(-1);
     if (sequence) {
