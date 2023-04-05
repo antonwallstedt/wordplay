@@ -19,7 +19,10 @@ function App() {
   };
 
   const handleStopAll = () => {
+    Tone.Transport.stop();
     Tone.Transport.cancel();
+    Tone.Transport.clear();
+
     setIsPlayingAll(false);
   };
 
