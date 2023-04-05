@@ -85,7 +85,13 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
   const handleStop = () => {
     console.log(sequence);
     setIsPlaying(false);
-    setCurrentWordIndex(0);
+    setCurrentWordIndex(-1);
+    if (sequence) {
+      sequence.stop();
+      sequence.clear();
+      sequence.dispose();
+    }
+    console.log(Tone.Transport.get());
     // Tone.Transport.cancel();
   };
 
