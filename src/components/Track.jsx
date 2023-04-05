@@ -32,6 +32,10 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
     onDelete(id);
   };
 
+  const handleSynthSelect = ({ target }) => {
+    setSynth(synths.find((synth) => synth.name === target.value).name);
+  };
+
   useEffect(() => {
     // Only play this track if it isn't currently playing
     if (isPlayingAll && !isPlaying) {
@@ -50,15 +54,17 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
     const lenArr = inputSequence.map((obj) => obj.len);
     let lenIndex = 0;
 
-    const synth = new Tone.Synth();
-    const freeverb = new Tone.Freeverb(0.2).toDestination();
-    sequence = new Tone.Sequence((time, note) => {
-      synth
+    const currentSynth = synths.find((s) => s.name === synth).synth;
+    const freeverb = new Tone.Freeverb(0.3).toDestination();
+    const release = lenArr[lenIndex] * 0.05;
+    const velocity = lenArr[lenIndex] * 0.05;
+    const seq = new Tone.Sequence((time, note) => {
+      currentSynth
         .triggerAttackRelease(
           note,
-          lenArr[lenIndex] * 0.05, // Release depends on length of word
+          release, // Release depends on length of word
           time,
-          lenArr[lenIndex] * 0.1 // Velocity also depends on length of word
+          velocity // Velocity also depends on length of word
         )
         .connect(freeverb);
       Tone.Draw.schedule(() => {
@@ -69,8 +75,10 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
         });
       }, time);
     }, notes);
-    sequence.start(0);
+    seq.humanize = true;
+    seq.start(0);
     setIsPlaying(true);
+    setSequence(seq);
     Tone.Transport.start();
   };
 
@@ -130,6 +138,17 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
           >
             Stop
           </button>
+          <select
+            style={selectStyle}
+            onChange={(e) => handleSynthSelect(e)}
+            defaultValue={synth}
+          >
+            {synths.map(({ name, synth }, index) => (
+              <option value={name} key={index}>
+                {name}
+              </option>
+            ))}
+          </select>
           <IconButton
             aria-label="delete-btn"
             icon={<DeleteIcon />}
