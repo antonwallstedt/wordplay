@@ -24,7 +24,9 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [sequence, setSequence] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [instrument, setInstrument] = useState(null);
+  const [synth, setSynth] = useState("Synth");
+  const [rootnote, setRootnote] = useState("C");
+  const [scale, setScale] = useState("Major");
   const [text, setText] = useState(inputText);
 
   // * Event Handlers
