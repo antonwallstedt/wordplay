@@ -5,6 +5,7 @@ import * as Tone from "tone";
 import "../App.css";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { IconButton } from "@chakra-ui/react";
+import { synths } from "../utils/Synths";
 
 function Track({ id, onDelete, isPlayingAll, inputText }) {
   // TODO: Allow instrument selection in individual tracks
