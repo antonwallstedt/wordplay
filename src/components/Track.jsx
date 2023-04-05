@@ -18,6 +18,9 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
   // * Constants
   let sequence; // TODO: Don't init to empty sequence...
   const wordSynth = new WordSynth();
+
+  // Words in paragraph are 0-indexed, so start from -1 so when next
+  // iteration starts it will be at 0
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [instrument, setInstrument] = useState(null);
