@@ -123,7 +123,7 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
           maxLength={64}
           placeholder={inputText}
         />
-        <div className="media-btn-container">
+        <div className="media-container">
           <button
             className="btn-play"
             style={{ marginTop: 10, marginRight: 5, float: "left" }}
