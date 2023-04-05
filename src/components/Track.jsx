@@ -22,6 +22,7 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
   // Words in paragraph are 0-indexed, so start from -1 so when next
   // iteration starts it will be at 0
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
+  const [sequence, setSequence] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [instrument, setInstrument] = useState(null);
   const [text, setText] = useState(inputText);
