@@ -26,6 +26,11 @@ function App() {
     setIsPlayingAll(false);
   };
 
+  Tone.Transport.bpm.value = 90;
+  const handleBpmChange = ({ target }) => {
+    Tone.Transport.bpm.value = target.value;
+  };
+
   const handleDelete = (trackId) => {
     console.log(tracks);
     setTracks((prev) => prev.filter((track) => track.id !== trackId));
@@ -53,6 +58,12 @@ function App() {
         >
           Stop All
         </button>
+        <p style={bpmStyle}>BPM</p>
+        <input
+          style={bpmInputStyle}
+          placeholder="90"
+          onChange={handleBpmChange}
+        />
       </div>
       {tracks.map((track) => (
         <Track
@@ -92,6 +103,17 @@ const navbarStyle = {
 const btnStyle = {
   marginLeft: 5,
   marginRight: 5,
+};
+
+const bpmStyle = {
+  marginLeft: 5,
+  marginRight: 5,
+};
+
+const bpmInputStyle = {
+  marginLeft: 5,
+  marginRight: 5,
+  width: 50,
 };
 
 export default App;
