@@ -2,6 +2,8 @@ import { useState } from "react";
 import * as Tone from "tone";
 import "./App.css";
 import Track from "./components/Track";
+import { IconButton } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 function App() {
   const defaultTracks = [
@@ -41,6 +43,11 @@ function App() {
     setTracks([...tracks, { key: tracks.length, id: Date.now(), text: "" }]);
   };
 
+  const [hamburgerOpen, setHamburgerOpen] = useState(false);
+  const handleHamburgerClick = () => {
+    setHamburgerOpen(!hamburgerOpen);
+  };
+
   return (
     <>
       <div className="navbar" style={navbarStyle}>
@@ -64,6 +71,16 @@ function App() {
           placeholder="90"
           onChange={handleBpmChange}
         />
+        <IconButton
+          aria-label="hamburger-btn"
+          icon={<HamburgerIcon />}
+          float="right"
+          height="30px"
+          pl="5px"
+          pr="5px"
+          onClick={handleHamburgerClick}
+          transition="all 1s"
+        />
       </div>
       <div className="content-container" style={contentContainerStyle}>
         {tracks.map((track) => (
@@ -78,6 +95,12 @@ function App() {
       <button className="add-track-btn" style={addBtnStyle} onClick={handleAdd}>
         Add Track
       </button>
+      </div>
+      {hamburgerOpen && (
+        <div className="sidebar-container" style={sidebarStyle}>
+          Hello
+        </div>
+      )}
     </>
   );
 }
