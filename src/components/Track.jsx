@@ -10,11 +10,14 @@ import { synths } from "../utils/Synths";
 function Track({ id, onDelete, isPlayingAll, inputText }) {
   // TODO: Allow instrument selection in individual tracks
   // TODO: Allow users to set BPM
+  // TODO: Allow users to set volume
+  // TODO: Allow users to set tempo
+  // TODO: Split up track into container and presentational components
   // TODO: Fix buggy play all functionality
   // TODO: Handle edge cases
-  // TODO:  - Double spaces in input
+  // TODO:  - Double spaces in input - perhaps a space could be changing rhythm?
   // TODO:  - Invalid characters
-  // TODO:  - Press play all when tracks are playing
+  // TODO:  - Pressing play all when tracks are playing
 
   // * Constants
   const wordSynth = new WordSynth();
@@ -25,8 +28,6 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
   const [sequence, setSequence] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [synth, setSynth] = useState("Synth");
-  const [rootnote, setRootnote] = useState("C");
-  const [scale, setScale] = useState("Major");
   const [text, setText] = useState(inputText);
 
   // * Event Handlers
@@ -53,12 +54,13 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
   }, [isPlayingAll]);
 
   const handlePlay = (input) => {
-    Tone.Transport.bpm.value = 90;
     const inputSequence = wordSynth.parseInput(input, defaultScale);
     const notes = inputSequence.map((obj) => obj.note);
     const lenArr = inputSequence.map((obj) => obj.len);
     let lenIndex = 0;
 
+    // Gets the synth from the dropdown by matching the name
+    // with the useState 'synth' property
     const currentSynth = synths.find((s) => s.name === synth).synth;
     const freeverb = new Tone.Freeverb(0.3).toDestination();
     const release = lenArr[lenIndex] * 0.05;
@@ -95,8 +97,6 @@ function Track({ id, onDelete, isPlayingAll, inputText }) {
       sequence.clear();
       sequence.dispose();
     }
-    console.log(Tone.Transport.get());
-    // Tone.Transport.cancel();
   };
 
   // * Functions

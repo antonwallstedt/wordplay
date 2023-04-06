@@ -92,9 +92,13 @@ function App() {
             inputText={track.text}
           />
         ))}
-      <button className="add-track-btn" style={addBtnStyle} onClick={handleAdd}>
-        Add Track
-      </button>
+        <button
+          className="add-track-btn"
+          style={addBtnStyle}
+          onClick={handleAdd}
+        >
+          Add Track
+        </button>
       </div>
       {hamburgerOpen && (
         <div className="sidebar-container" style={sidebarStyle}>
