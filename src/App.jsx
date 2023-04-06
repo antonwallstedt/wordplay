@@ -65,15 +65,16 @@ function App() {
           onChange={handleBpmChange}
         />
       </div>
-      {tracks.map((track) => (
-        <Track
-          key={track.key}
-          id={track.id}
-          onDelete={handleDelete}
-          isPlayingAll={isPlayingAll}
-          inputText={track.text}
-        />
-      ))}
+      <div className="content-container" style={contentContainerStyle}>
+        {tracks.map((track) => (
+          <Track
+            key={track.key}
+            id={track.id}
+            onDelete={handleDelete}
+            isPlayingAll={isPlayingAll}
+            inputText={track.text}
+          />
+        ))}
       <button className="add-track-btn" style={addBtnStyle} onClick={handleAdd}>
         Add Track
       </button>
@@ -114,6 +115,20 @@ const bpmInputStyle = {
   marginLeft: 5,
   marginRight: 5,
   width: 50,
+};
+
+const sidebarStyle = {
+  float: "right",
+  height: "100%",
+  width: 300,
+  backgroundColor: "rgb(30,30,30)",
+  marginRight: 0,
+};
+
+const contentContainerStyle = {
+  marginLeft: 100,
+  marginRight: 100,
+  height: "100%",
 };
 
 export default App;
