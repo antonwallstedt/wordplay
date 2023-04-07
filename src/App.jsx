@@ -10,9 +10,9 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col overflow-x-hidden font-inter">
+    <div className="flex h-full flex-col overflow-x-hidden font-inter">
       <Toolbar handleSideBarOpen={handleSidebarOpen} />
-      <div className="flex h-full flex-row overflow-x-hidden">
+      <div className="flex h-full flex-row justify-between overflow-x-hidden">
         <Playground />
         <Sidebar isShowing={sidebarOpen} />
       </div>
