@@ -5,7 +5,7 @@ import ButtonPrimary from "../components/ButtonPrimary";
 // * Toolbar at the top for media buttons among other things
 function Toolbar({ handleSideBarOpen }) {
   return (
-    <div className="z-10 flex items-center justify-center bg-gradient-to-b from-orange-100 to-orange-200 py-5 text-center drop-shadow-md">
+    <div className="z-10 flex items-center justify-center bg-gradient-to-tr from-orange-200 to-orange-300 py-5 text-center drop-shadow-md">
       <h1 className="absolute left-10 font-caveat text-3xl font-bold drop-shadow-md md:text-4xl">
         WordPlay
       </h1>
