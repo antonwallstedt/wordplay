@@ -13,19 +13,26 @@ function App() {
     scaleGenerator.createMapping(rootNote, scale, octave)
   );
   const scales = scaleGenerator.getScales();
+  const chromaticScale = scaleGenerator.getChromaticScale();
   const handleRootNoteChange = ({ target }) => {
     setRootNote(target.value);
-    setMapping(() => scaleGenerator.createMapping(rootNote, scale, octave));
+    setMapping(() => {
+      return scaleGenerator.createMapping(target.value, scale, octave);
+    });
   };
 
   const handleScaleChange = ({ target }) => {
     setScale(target.value);
-    setMapping(() => scaleGenerator.createMapping(rootNote, scale, octave));
+    setMapping(() =>
+      scaleGenerator.createMapping(rootNote, target.value, octave)
+    );
   };
 
   const handleOctaveChange = ({ target }) => {
-    setOctave(target.value);
-    setMapping(() => scaleGenerator.createMapping(rootNote, scale, octave));
+    setOctave(Number(target.value));
+    setMapping(() =>
+      scaleGenerator.createMapping(rootNote, scale, Number(target.value))
+    );
   };
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -42,6 +49,7 @@ function App() {
           isShowing={sidebarOpen}
           scales={scales}
           defaultScale={"Major"}
+          chromaticScale={chromaticScale}
           handleScaleChange={handleScaleChange}
           handleRootNoteChange={handleRootNoteChange}
           handleOctaveChange={handleOctaveChange}
