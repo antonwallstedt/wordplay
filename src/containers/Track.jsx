@@ -26,7 +26,7 @@ const Track = ({ id, onDelete, isPlayingAll, inputText }) => {
   };
 
   return (
-    <div className="mb-10 flex flex-col items-center justify-between rounded-3xl bg-gradient-to-b from-stone-400 to-stone-500 px-10 py-5 drop-shadow-lg">
+    <div className="mb-10 flex max-w-2xl flex-col items-center justify-between rounded-3xl bg-gradient-to-b from-stone-400 to-stone-500 px-10 py-5 drop-shadow-lg">
       <div className="flex items-center justify-center">
         {text.split(" ").map((word, index) => highlightWord(word, index))}
       </div>
