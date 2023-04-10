@@ -108,6 +108,10 @@ class ScaleGenerator {
   getScales() {
     return this.scaleDegrees.map((obj) => Object.keys(obj)[0]);
   }
+
+  getChromaticScale() {
+    return this.chromatic;
+  }
 }
 
 export default ScaleGenerator;
