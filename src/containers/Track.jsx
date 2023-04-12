@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ButtonSecondary from "../components/ButtonSecondary";
 import { AiOutlineDelete } from "react-icons/ai";
+import { GiHamburger, GiHamburgerMenu } from "react-icons/gi";
 import WordSynth from "../lib/WordSynth";
 import { synths } from "../utils/Synths";
 import * as Tone from "tone";
@@ -12,6 +13,7 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [sequence, setSequence] = useState(null);
   const [synth, setSynth] = useState("Synth");
+  const [hamburgerMenu, setHamburgerMenu] = useState(false);
 
   useEffect(() => {
     // Only play this track if it's not already playing.
@@ -44,6 +46,10 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
 
   const handleChange = ({ target }) => {
     setText(target.value);
+  };
+
+  const handleHamburgerMenu = () => {
+    setHamburgerMenu(!hamburgerMenu);
   };
 
   const handleSynthSelect = ({ target }) => {
@@ -96,35 +102,69 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
   };
 
   return (
-    <div className="mb-10 flex max-w-2xl flex-col items-center justify-between rounded-3xl bg-gradient-to-b from-stone-400 to-stone-500 px-10 py-5 drop-shadow-lg">
-      <div className="flex items-center justify-center">
-        {text.split(" ").map((word, index) => highlightWord(word, index))}
+    <div className="flex flex-row items-center justify-center">
+      <div
+        className={
+          "transition-duration-500 relative mb-10 mr-2 w-[300px] rounded-lg bg-stone-400 p-5 drop-shadow-lg transition-transform ease-in-out " +
+          (!hamburgerMenu && "translate-x-[100%]")
+        }
+      >
+        <div className="flex flex-col">
+          <h3 className="text-md font-semibold">Modifiers</h3>
+          <input className="w-30 mb-2 rounded-md indent-2" />
+          <h3 className="text-md border-opacity-0 pt-1 font-semibold">
+            Effects
+          </h3>
+          <input className="w-30 mb-2 rounded-md indent-2" />
+        </div>
       </div>
-      <input
-        className="mt-5 w-full rounded-md p-1 indent-2 drop-shadow-md"
-        maxLength="48"
-        placeholder={text}
-        onChange={handleChange}
-      />
-      <div className="float-left mt-5 flex gap-4">
-        <ButtonSecondary text="Play" handleClick={() => handlePlay(text)} />
-        <ButtonSecondary text="Stop" handleClick={handleStop} />
-        <ButtonSecondary
-          edit="float-right"
-          icon={<AiOutlineDelete size="20px" />}
-          handleClick={handleDelete}
+      <div
+        className={
+          "transition-duration-500 mb-10 flex max-w-2xl flex-col items-center justify-between rounded-3xl bg-gradient-to-b from-stone-400 to-stone-500 px-10 py-5 drop-shadow-lg transition-transform ease-in-out " +
+          (hamburgerMenu ? "" : "-translate-x-[150px]")
+        }
+      >
+        <div className="flex items-center justify-center">
+          {text.split(" ").map((word, index) => highlightWord(word, index))}
+        </div>
+        <input
+          className="mt-5 w-full rounded-md p-1 indent-2 drop-shadow-md"
+          maxLength="48"
+          placeholder={text}
+          onChange={handleChange}
         />
-        <select
-          className="rounded-md"
-          onChange={handleSynthSelect}
-          defaultValue={synth}
-        >
-          {synths.map(({ name, synth }, index) => (
-            <option key={index} value={name}>
-              {name}
-            </option>
-          ))}
-        </select>
+        <div className="float-left mt-5 flex gap-4">
+          <ButtonSecondary
+            icon={
+              <GiHamburgerMenu
+                className={
+                  "transition-duration-600 transition-transform ease-in-out " +
+                  (hamburgerMenu && "rotate-90")
+                }
+                size="20px"
+              />
+            }
+            handleClick={handleHamburgerMenu}
+          />
+          <ButtonSecondary text="Play" handleClick={() => handlePlay(text)} />
+          <ButtonSecondary text="Stop" handleClick={handleStop} />
+          <ButtonSecondary
+            edit="float-right"
+            icon={<AiOutlineDelete size="20px" />}
+            handleClick={handleDelete}
+          />
+          <select
+            className="rounded-md"
+            onChange={handleSynthSelect}
+            defaultValue={synth}
+          >
+            {synths.map(({ name, synth }, index) => (
+              <option key={index} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
   );
