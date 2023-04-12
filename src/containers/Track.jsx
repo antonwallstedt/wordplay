@@ -5,24 +5,25 @@ import WordSynth from "../lib/WordSynth";
 import { synths } from "../utils/Synths";
 import * as Tone from "tone";
 
-// * Input card for the users
 const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
   const wordSynth = new WordSynth();
   const [text, setText] = useState(inputText);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
-  const [sequence, setSequence] = useState([]);
+  const [sequence, setSequence] = useState(null);
   const [synth, setSynth] = useState("Synth");
 
   useEffect(() => {
+    // Only play this track if it's not already playing.
     if (isPlayingAll && !isPlaying) {
       setIsPlaying(true);
       handlePlay(text);
     } else {
-      setIsPlaying(false);
+      handleStop();
     }
   }, [isPlayingAll]);
 
+  // TODO: allow highlight of individual characters.
   const highlightWord = (word, index) => {
     return (
       <span
@@ -51,16 +52,25 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
 
   const handlePlay = (input) => {
     const inputSequence = wordSynth.parseInput(input, scale);
-    console.log(inputSequence);
     const notes = inputSequence.map((obj) => obj.note);
     const lens = inputSequence.map((obj) => obj.len);
     let lenIndex = 0;
 
+    // Get the synth from the select-menu by matching its name with
+    // the useState 'synth' value.
     const currentSynth = synths.find((s) => s.name === synth).synth;
-    const release = lens[lenIndex] * 0.05;
+    const freeverb = new Tone.Freeverb(0.3).toDestination();
+    const release = lens[lenIndex] * 0.05; // TODO: Figure out a better calculation.
     const velocity = lens[lenIndex] * 0.05;
     const seq = new Tone.Sequence((time, note) => {
-      currentSynth.triggerAttackRelease(note, release, time, velocity);
+      currentSynth
+        .triggerAttackRelease(
+          note,
+          release, // Release depends on length of word (see TODO above).
+          time,
+          velocity // Velocity also depends on length of word (see TODO above).
+        )
+        .connect(freeverb);
       Tone.Draw.schedule(() => {
         lenIndex = (lenIndex + 1) % lens.length;
         setCurrentWordIndex((currentIndex) => {
