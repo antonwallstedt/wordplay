@@ -14,7 +14,7 @@ const Sidebar = ({
   return (
     <div
       className={
-        "transition-duration-500 first-letter: absolute right-0 z-0 mt-0 flex h-[90%] w-96 flex-col rounded-bl-xl bg-gradient-to-b from-stone-300 to-stone-400 p-10 drop-shadow-lg transition-transform ease-in-out " +
+        "absolute right-0 z-0 mt-0 flex h-[90%] w-96 flex-col rounded-bl-xl bg-gradient-to-b from-stone-300 to-stone-400 p-10 drop-shadow-lg transition-transform duration-500 ease-in-out " +
         (isShowing && "translate-x-[100%]")
       }
     >

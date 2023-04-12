@@ -128,7 +128,7 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
     <div className="flex flex-row items-center justify-center">
       <div
         className={
-          "transition-duration-500 relative mb-10 mr-2 w-[300px] rounded-lg bg-stone-400 p-5 drop-shadow-lg transition-transform ease-in-out " +
+          "relative mb-10 mr-2 w-[300px] rounded-lg bg-stone-400 p-5 drop-shadow-lg transition-transform duration-500 ease-in-out " +
           (!hamburgerMenu && "translate-x-[100%]")
         }
       >
@@ -142,7 +142,7 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
       </div>
       <div
         className={
-          "transition-duration-500 mb-10 flex max-w-2xl flex-col items-center justify-between rounded-3xl bg-gradient-to-b from-stone-400 to-stone-500 px-10 py-5 drop-shadow-lg transition-transform ease-in-out " +
+          "mb-10 flex max-w-2xl flex-col items-center justify-between rounded-3xl bg-gradient-to-b from-stone-400 to-stone-500 px-10 py-5 drop-shadow-lg transition-transform duration-500 ease-in-out " +
           (hamburgerMenu ? "" : "-translate-x-[150px]")
         }
       >
