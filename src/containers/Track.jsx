@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonSecondary from "../components/ButtonSecondary";
 import { AiOutlineDelete } from "react-icons/ai";
+import WordSynth from "../lib/WordSynth";
+import { synths } from "../utils/Synths";
+import * as Tone from "tone";
 
 // * Input card for the users
 const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
