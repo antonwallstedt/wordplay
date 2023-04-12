@@ -175,7 +175,7 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
             icon={
               <GiHamburgerMenu
                 className={
-                  "transition-duration-600 transition-transform ease-in-out " +
+                  "transition-transform duration-500 ease-in-out " +
                   (hamburgerMenu && "rotate-90")
                 }
                 size="20px"
