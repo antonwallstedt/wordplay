@@ -6,7 +6,7 @@ import WordSynth from "../lib/WordSynth";
 import { synths } from "../utils/Synths";
 import * as Tone from "tone";
 
-const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
+const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
   const wordSynth = new WordSynth();
   const [text, setText] = useState(inputText);
   const [rhythm, setRhythm] = useState("");
