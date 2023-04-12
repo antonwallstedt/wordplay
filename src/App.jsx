@@ -3,12 +3,14 @@ import Playground from "./containers/Playground";
 import Sidebar from "./containers/Sidebar";
 import Toolbar from "./containers/Toolbar";
 import ScaleGenerator from "./lib/ScaleGenerator";
+import * as Tone from "tone";
 
 function App() {
   const scaleGenerator = new ScaleGenerator();
   const [rootNote, setRootNote] = useState("C");
   const [scale, setScale] = useState("Major");
   const [octave, setOctave] = useState(4);
+  const [isPlayingAll, setIsPlayingAll] = useState(false);
   const [mapping, setMapping] = useState(
     scaleGenerator.createMapping(rootNote, scale, octave)
   );
@@ -40,9 +42,24 @@ function App() {
     setSidebarOpen(!sidebarOpen);
   };
 
+  const handlePlayAll = () => {
+    setIsPlayingAll(true);
+  };
+
+  const handleStopAll = () => {
+    Tone.Transport.stop();
+    Tone.Transport.cancel();
+    Tone.Transport.clear();
+    setIsPlayingAll(false);
+  };
+
   return (
     <div className="flex h-full flex-col overflow-x-hidden font-inter">
-      <Toolbar handleSideBarOpen={handleSidebarOpen} />
+      <Toolbar
+        handleSideBarOpen={handleSidebarOpen}
+        handlePlayAll={handlePlayAll}
+        handleStopAll={handleStopAll}
+      />
       <div className="flex h-full flex-row justify-between overflow-x-hidden">
         <Playground />
         <Sidebar

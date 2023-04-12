@@ -14,8 +14,8 @@ function Toolbar({ handleSideBarOpen, handlePlayAll, handleStopAll }) {
         WordPlay
       </h1>
       <div className="flex gap-4">
-        <ButtonPrimary text="Play All" />
-        <ButtonPrimary text="Stop All" />
+        <ButtonPrimary text="Play All" handleClick={handlePlayAll} />
+        <ButtonPrimary text="Stop All" handleClick={handleStopAll} />
         <h2 className="mt-1 text-lg font-semibold">BPM</h2>
         <input
           className="-ml-2 mt-1 h-7 w-12 rounded-md indent-1"
