@@ -9,11 +9,12 @@ import * as Tone from "tone";
 const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
   const wordSynth = new WordSynth();
   const [text, setText] = useState(inputText);
+  const [rhythm, setRhythm] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [sequence, setSequence] = useState(null);
   const [synth, setSynth] = useState("Synth");
-  const [hamburgerMenu, setHamburgerMenu] = useState(false);
+  const [hamburgerMenu, setHamburgerMenu] = useState(true);
 
   useEffect(() => {
     // Only play this track if it's not already playing.
@@ -56,38 +57,60 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
     setSynth(synths.find((synth) => synth.name === target.value).name);
   };
 
+  const handleRhythmInput = ({ target }) => {
+    // TODO: Run Parser.jsx to validate input
+    // TODO: Connect to handlePlay
+    setRhythm(target.value);
+  };
+
   const handlePlay = (input) => {
     const inputSequence = wordSynth.parseInput(input, scale);
-    const notes = inputSequence.map((obj) => obj.note);
+    const notes = inputSequence.map((obj, index) => ({
+      time: index * 0.5, // TODO: Use value from input if given, otherwise subdivide based on input length?
+      note: obj.note,
+    }));
     const lens = inputSequence.map((obj) => obj.len);
     let lenIndex = 0;
 
     // Get the synth from the select-menu by matching its name with
     // the useState 'synth' value.
+    const testSynth = new Tone.Synth().toDestination();
     const currentSynth = synths.find((s) => s.name === synth).synth;
     const freeverb = new Tone.Freeverb(0.3).toDestination();
     const release = lens[lenIndex] * 0.05; // TODO: Figure out a better calculation.
     const velocity = lens[lenIndex] * 0.05;
-    const seq = new Tone.Sequence((time, note) => {
-      currentSynth
-        .triggerAttackRelease(
-          note,
-          release, // Release depends on length of word (see TODO above).
-          time,
-          velocity // Velocity also depends on length of word (see TODO above).
-        )
-        .connect(freeverb);
+    const part = new Tone.Part((time, value) => {
+      testSynth.triggerAttackRelease(value.note, "8n", time);
       Tone.Draw.schedule(() => {
         lenIndex = (lenIndex + 1) % lens.length;
         setCurrentWordIndex((currentIndex) => {
           let nextIndex = (currentIndex + 1) % notes.length;
           return nextIndex;
-        });
-      }, time);
+        }, time);
+      });
     }, notes);
-    seq.start(0);
+    part.loop = true; // TODO: Fix stopping now that we're using Part instead...
+    part.start(0);
+    // const seq = new Tone.Sequence((time, note) => {
+    //   currentSynth
+    //     .triggerAttackRelease(
+    //       note,
+    //       release, // Release depends on length of word (see TODO above).
+    //       time,
+    //       velocity // Velocity also depends on length of word (see TODO above).
+    //     )
+    //     .connect(freeverb);
+    //   Tone.Draw.schedule(() => {
+    //     lenIndex = (lenIndex + 1) % lens.length;
+    //     setCurrentWordIndex((currentIndex) => {
+    //       let nextIndex = (currentIndex + 1) % notes.length;
+    //       return nextIndex;
+    //     });
+    //   }, time);
+    // }, notes);
+    // seq.start(0);
+    // setSequence(seq);
     setIsPlaying(true);
-    setSequence(seq);
     Tone.Transport.start();
   };
 
@@ -110,12 +133,11 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
         }
       >
         <div className="flex flex-col">
-          <h3 className="text-md font-semibold">Modifiers</h3>
-          <input className="w-30 mb-2 rounded-md indent-2" />
-          <h3 className="text-md border-opacity-0 pt-1 font-semibold">
-            Effects
-          </h3>
-          <input className="w-30 mb-2 rounded-md indent-2" />
+          <h3 className="text-md font-semibold">Rhythm</h3>
+          <input
+            className="w-30 mb-2 rounded-md indent-2 font-jetbrains"
+            onChange={handleRhythmInput}
+          />
         </div>
       </div>
       <div

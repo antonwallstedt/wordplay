@@ -4,9 +4,7 @@ import ButtonPrimary from "../components/ButtonPrimary";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
 
 const Playground = ({ isPlayingAll, scale }) => {
-  const defaultTracks = [
-    { key: 0, id: 0, text: "Hello my name is Anton" },
-  ];
+  const defaultTracks = [{ key: 0, id: 0, text: "Hello my name is Anton" }];
   const [tracks, setTracks] = useState(defaultTracks);
 
   const handleAdd = () => {
