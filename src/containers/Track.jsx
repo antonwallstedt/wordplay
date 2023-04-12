@@ -133,11 +133,26 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
         }
       >
         <div className="flex flex-col">
-          <h3 className="text-md font-semibold">Rhythm</h3>
-          <input
-            className="w-30 mb-2 rounded-md indent-2 font-jetbrains"
-            onChange={handleRhythmInput}
-          />
+          <div className="flex flex-row">
+            <h3 className="text-md font-semibold">Rhythm</h3>
+            <input
+              className="mb-2 ml-2 w-full rounded-md indent-2 font-jetbrains"
+              onChange={handleRhythmInput}
+            />
+          </div>
+          <div className="flex flex-row">
+            <h3 className="text-md font-semibold drop-shadow-sm">Octave</h3>
+            <select
+              className="ml-3 mt-[3px] h-5 w-10 rounded-md bg-stone-50 indent-1"
+              defaultValue={octave}
+            >
+              {[2, 3, 4, 5, 6].map((octave, index) => (
+                <option key={index} value={octave}>
+                  {octave}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
       <div

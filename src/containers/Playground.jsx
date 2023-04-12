@@ -3,7 +3,7 @@ import Track from "./Track";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
 
-const Playground = ({ isPlayingAll, scale }) => {
+const Playground = ({ isPlayingAll, scale, octave }) => {
   const defaultTracks = [{ key: 0, id: 0, text: "Hello my name is Anton" }];
   const [tracks, setTracks] = useState(defaultTracks);
 
@@ -25,6 +25,7 @@ const Playground = ({ isPlayingAll, scale }) => {
           onDelete={handleDelete}
           isPlayingAll={isPlayingAll}
           scale={scale}
+          octave={octave}
         />
       ))}
       <ButtonPrimary
