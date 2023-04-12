@@ -6,7 +6,6 @@ import { MdOutlineAddCircleOutline } from "react-icons/md";
 const Playground = ({ isPlayingAll, scale }) => {
   const defaultTracks = [
     { key: 0, id: 0, text: "Hello my name is Anton" },
-    { key: 1, id: 1, text: "This is some text" },
   ];
   const [tracks, setTracks] = useState(defaultTracks);
 
