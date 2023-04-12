@@ -61,7 +61,7 @@ function App() {
         handleStopAll={handleStopAll}
       />
       <div className="flex h-full flex-row justify-between overflow-x-hidden">
-        <Playground />
+        <Playground isPlayingAll={isPlayingAll} scale={mapping} />
         <Sidebar
           isShowing={sidebarOpen}
           scales={scales}
