@@ -24,7 +24,10 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
     return (
       <span
         key={index}
-        className="m-1.5 items-center justify-center text-center font-jetbrains text-2xl font-semibold drop-shadow-md"
+        className={
+          "m-1.5 items-center justify-center rounded-md px-1 text-center font-jetbrains text-2xl font-semibold drop-shadow-md " +
+          (isPlaying && index === currentWordIndex ? "bg-green-900" : "")
+        }
       >
         {word}
       </span>
@@ -98,6 +101,17 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale }) => {
           icon={<AiOutlineDelete size="20px" />}
           handleClick={handleDelete}
         />
+        <select
+          className="rounded-md"
+          onChange={handleSynthSelect}
+          defaultValue={synth}
+        >
+          {synths.map(({ name, synth }, index) => (
+            <option key={index} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );
