@@ -8,7 +8,7 @@ const MONO_SYNTH = new Tone.MonoSynth();
 const PLUCK_SYNTH = new Tone.PluckSynth();
 const SYNTH = new Tone.Synth();
 
-// TODO: Fix issue with using same synth twice!
+// TODO: Fix issue with using same synth on multiple tracks!
 
 export const synths = [
   { name: "AM", synth: AM_SYNTH },
