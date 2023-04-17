@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from "react";
 import ButtonSecondary from "../components/ButtonSecondary";
 import { AiOutlineDelete } from "react-icons/ai";
-import { GiHamburger, GiHamburgerMenu } from "react-icons/gi";
+import { GiHamburgerMenu } from "react-icons/gi";
 import WordSynth from "../lib/WordSynth";
+import ScaleGenerator from "../lib/ScaleGenerator";
 import { synths } from "../utils/Synths";
 import * as Tone from "tone";
 
 const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
   const wordSynth = new WordSynth();
+  const scaleGenerator = new ScaleGenerator();
   const [text, setText] = useState(inputText);
+  const [notes, setNotes] = useState(() => {
+    if (inputText) return wordSynth.parseInput(text, scale);
+    else return [];
+  });
+  const [currentOctave, setCurrentOctave] = useState(octave); // Keep track of this track's invidiual octave
   const [rhythm, setRhythm] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [sequence, setSequence] = useState(null);
   const [synth, setSynth] = useState("Synth");
-  const [hamburgerMenu, setHamburgerMenu] = useState(true);
+  const [hamburgerMenu, setHamburgerMenu] = useState(false);
 
   useEffect(() => {
     // Only play this track if it's not already playing.
@@ -26,7 +33,23 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
     }
   }, [isPlayingAll]);
 
+  useEffect(() => {
+    if (text) {
+      if (currentOctave === octave) {
+        setNotes(wordSynth.parseInput(text, scale));
+      } else {
+        setNotes(
+          scaleGenerator.setOctave(
+            wordSynth.parseInput(text, scale),
+            currentOctave
+          )
+        );
+      }
+    }
+  }, [scale]);
+
   // TODO: allow highlight of individual characters.
+  // TODO: Fix issue when you only have one word.
   const highlightWord = (word, index) => {
     return (
       <span
@@ -47,6 +70,18 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
 
   const handleChange = ({ target }) => {
     setText(target.value);
+    if (target.value) {
+      if (currentOctave === octave) {
+        setNotes(wordSynth.parseInput(target.value, scale));
+      } else {
+        setNotes(
+          scaleGenerator.setOctave(
+            wordSynth.parseInput(target.value, scale),
+            currentOctave
+          )
+        );
+      }
+    }
   };
 
   const handleHamburgerMenu = () => {
@@ -63,24 +98,38 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
     setRhythm(target.value);
   };
 
-  const handlePlay = (input) => {
-    const inputSequence = wordSynth.parseInput(input, scale);
-    const notes = inputSequence.map((obj, index) => ({
-      time: index * 0.5, // TODO: Use value from input if given, otherwise subdivide based on input length?
-      note: obj.note,
-    }));
-    const lens = inputSequence.map((obj) => obj.len);
+  const handleOctaveChange = ({ target }) => {
+    setCurrentOctave(target.value);
+    setNotes(
+      scaleGenerator.setOctave(wordSynth.parseInput(text, scale), target.value)
+    );
+  };
+
+  // TODO: Move this into WordSynth.jsx
+  const handlePlay = () => {
+    const lens = notes.map((obj) => obj.len);
     let lenIndex = 0;
+    let sequence = [];
+    if (rhythm) {
+      sequence = notes.map((obj, index) => ({
+        time: index * Number(rhythm), // TODO: Use value from input if given, otherwise subdivide based on input length?
+        note: obj.note,
+      }));
+    } else {
+      sequence = notes.map((obj) => obj.note);
+    }
 
     // Get the synth from the select-menu by matching its name with
     // the useState 'synth' value.
-    const testSynth = new Tone.Synth().toDestination();
-    const currentSynth = synths.find((s) => s.name === synth).synth;
+    const currentSynth = synths
+      .find((s) => s.name === synth)
+      .synth.toDestination();
     const freeverb = new Tone.Freeverb(0.3).toDestination();
     const release = lens[lenIndex] * 0.05; // TODO: Figure out a better calculation.
     const velocity = lens[lenIndex] * 0.05;
     const part = new Tone.Part((time, value) => {
-      testSynth.triggerAttackRelease(value.note, "8n", time);
+      currentSynth.triggerAttackRelease(value.note, "8n", time);
+      // TODO: Create new function for this.
       Tone.Draw.schedule(() => {
         lenIndex = (lenIndex + 1) % lens.length;
         setCurrentWordIndex((currentIndex) => {
@@ -88,9 +137,9 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
           return nextIndex;
         }, time);
       });
-    }, notes);
+    }, sequence);
     part.loop = true; // TODO: Fix stopping now that we're using Part instead...
-    part.start(0);
+    part.start("1m");
     // const seq = new Tone.Sequence((time, note) => {
     //   currentSynth
     //     .triggerAttackRelease(
@@ -145,6 +194,7 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
             <select
               className="ml-3 mt-[3px] h-5 w-10 rounded-md bg-stone-50 indent-1"
               defaultValue={octave}
+              onChange={handleOctaveChange}
             >
               {[2, 3, 4, 5, 6].map((octave, index) => (
                 <option key={index} value={octave}>

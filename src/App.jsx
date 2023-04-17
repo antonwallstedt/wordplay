@@ -65,6 +65,7 @@ function App() {
           isPlayingAll={isPlayingAll}
           scale={mapping}
           octave={octave}
+          rootNote={rootNote}
         />
         <Sidebar
           isShowing={sidebarOpen}

@@ -112,6 +112,17 @@ class ScaleGenerator {
   getChromaticScale() {
     return this.chromatic;
   }
+
+  setOctave(mapping, newOctave) {
+    let newMapping = mapping;
+    for (let i = 0; i < mapping.length; i++) {
+      newMapping[i].note = newMapping[i].note.replace(
+        /\d+/g,
+        String(newOctave)
+      );
+    }
+    return newMapping;
+  }
 }
 
 export default ScaleGenerator;
