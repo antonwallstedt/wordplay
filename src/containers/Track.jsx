@@ -7,7 +7,17 @@ import ScaleGenerator from "../lib/ScaleGenerator";
 import { synths } from "../utils/Synths";
 import * as Tone from "tone";
 
-const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
+const Track = ({
+  id,
+  onDelete,
+  isPlayingAll,
+  inputText,
+  inputOctave,
+  inputRhythm,
+  inputSynth,
+  scale,
+  octave,
+}) => {
   const wordSynth = new WordSynth();
   const scaleGenerator = new ScaleGenerator();
   const [text, setText] = useState(inputText);
@@ -15,19 +25,26 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
     if (inputText) return wordSynth.parseInput(text, scale);
     else return [];
   });
-  const [currentOctave, setCurrentOctave] = useState(octave); // Keep track of this track's invidiual octave
-  const [rhythm, setRhythm] = useState("");
+  const [currentOctave, setCurrentOctave] = useState(() => {
+    // Keep track of this track's individual octave
+    if (inputOctave) return inputOctave;
+    else return octave;
+  });
+  const [rhythm, setRhythm] = useState(inputRhythm);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [sequence, setSequence] = useState(null);
-  const [synth, setSynth] = useState("Synth");
+  const [synth, setSynth] = useState(() => {
+    if (inputSynth) return inputSynth;
+    else return "Synth";
+  });
   const [hamburgerMenu, setHamburgerMenu] = useState(false);
 
   useEffect(() => {
     // Only play this track if it's not already playing.
     if (isPlayingAll && !isPlaying) {
       setIsPlaying(true);
-      handlePlay(text);
+      handlePlay();
     } else {
       handleStop();
     }
@@ -185,7 +202,8 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
           <div className="flex flex-row">
             <h3 className="text-md font-semibold">Rhythm</h3>
             <input
-              className="mb-2 ml-2 w-full rounded-md indent-2 font-jetbrains"
+              className="mb-2 ml-2 w-24 rounded-md indent-2 font-jetbrains"
+              defaultValue={inputRhythm}
               onChange={handleRhythmInput}
             />
           </div>
@@ -193,7 +211,7 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
             <h3 className="text-md font-semibold drop-shadow-sm">Octave</h3>
             <select
               className="ml-3 mt-[3px] h-5 w-10 rounded-md bg-stone-50 indent-1"
-              defaultValue={octave}
+              defaultValue={currentOctave}
               onChange={handleOctaveChange}
             >
               {[2, 3, 4, 5, 6].map((octave, index) => (
@@ -241,7 +259,7 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
             handleClick={handleDelete}
           />
           <select
-            className="rounded-md"
+            className="rounded-md indent-1"
             onChange={handleSynthSelect}
             defaultValue={synth}
           >
