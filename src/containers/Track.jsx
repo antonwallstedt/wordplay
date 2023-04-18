@@ -164,13 +164,13 @@ const Track = ({ id, onDelete, isPlayingAll, inputText, scale, octave }) => {
   };
 
   const handleStop = () => {
-    setIsPlaying(false);
-    setCurrentWordIndex(-1);
     if (sequence) {
       sequence.stop();
       sequence.clear();
       sequence.dispose();
     }
+    setIsPlaying(false);
+    setCurrentWordIndex(-1);
   };
 
   return (
