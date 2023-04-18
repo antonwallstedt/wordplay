@@ -7,8 +7,8 @@ import * as Tone from "tone";
 
 function App() {
   const scaleGenerator = new ScaleGenerator();
-  const [rootNote, setRootNote] = useState("C");
-  const [scale, setScale] = useState("Major");
+  const [rootNote, setRootNote] = useState("G");
+  const [scale, setScale] = useState("Dorian Mode");
   const [octave, setOctave] = useState(4);
   const [isPlayingAll, setIsPlayingAll] = useState(false);
   const [mapping, setMapping] = useState(
