@@ -12,13 +12,14 @@ class Parser {
     let result = [];
     for (var word of words) {
       result.push({
-        word: this.tidyWord(word),
+        word: word,
+        cleanWord: this.tidyWord(word),
         comma: this.containsComma(word),
         paranthesis: this.containsParanthesis(word),
         punctuation: this.containsPunctuation(word),
         semicolon: this.containsSemicolon(word),
         colon: this.containsColon(word),
-        exclamation: this.containsExcalamation(word),
+        exclamation: this.containsExclamation(word),
         question: this.containsQuestionMark(word),
       });
     }

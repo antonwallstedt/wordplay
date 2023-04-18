@@ -4,6 +4,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import WordSynth from "../lib/WordSynth";
 import ScaleGenerator from "../lib/ScaleGenerator";
+import PseudoLexer from "../lib/PseudoLexer";
 import { synths } from "../utils/Synths";
 import * as Tone from "tone";
 
@@ -18,9 +19,14 @@ const Track = ({
   scale,
   octave,
 }) => {
+  const lexer = new PseudoLexer();
   const wordSynth = new WordSynth();
   const scaleGenerator = new ScaleGenerator();
   const [text, setText] = useState(inputText);
+  const [parsedInput, setParsedInput] = useState(() => {
+    if (inputText) return lexer.interpret(inputText, scale);
+    else return [];
+  });
   const [notes, setNotes] = useState(() => {
     if (inputText) return wordSynth.parseInput(text, scale);
     else return [];
@@ -51,6 +57,7 @@ const Track = ({
     }
   }, [isPlayingAll]);
 
+  // Update notes if the scale is changed from the sidebar.
   useEffect(() => {
     if (text) {
       if (currentOctave === octave) {
@@ -66,6 +73,8 @@ const Track = ({
     }
   }, [scale]);
 
+  // Update the notes if the notes are changed in the sidebar.
+  // E.g. if the user presses the "Surprise me!" button.
   useEffect(() => {
     setNoteSequence(() => {
       if (rhythm) {
@@ -101,6 +110,7 @@ const Track = ({
 
   const handleChange = ({ target }) => {
     setText(target.value);
+    setParsedInput(lexer.interpret(target.value, scale));
     if (target.value) {
       if (currentOctave === octave) {
         setNotes(wordSynth.parseInput(target.value, scale));
@@ -141,43 +151,65 @@ const Track = ({
     const currentSynth = synths
       .find((s) => s.name === synth)
       .synth.toDestination();
-    const lens = notes.map((obj) => obj.len);
-    let lenIndex = 0;
-    if (rhythm) {
-      // Get the synth from the select-menu by matching its name with
-      // the useState 'synth' value.
-      const part = new Tone.Part((time, value) => {
+    let test = parsedInput.map((obj) => [obj.note, obj.time]);
+    const part = new Tone.Part(
+      (time, value) => {
         currentSynth.triggerAttackRelease(value.note, "8n", time);
-        // TODO: Create new function for this.
         Tone.Draw.schedule(() => {
-          lenIndex = (lenIndex + 1) % lens.length;
           setCurrentWordIndex((currentIndex) => {
-            let nextIndex = (currentIndex + 1) % notes.length;
+            let nextIndex = (currentIndex + 1) % parsedInput.length;
             return nextIndex;
           }, time);
         });
-      }, noteSequence);
-      setSequence(part);
-      part.loop = true; // TODO: Fix stopping now that we're using Part instead...
-      part.start("0m");
-      Tone.Transport.start();
-      setIsPlaying(true);
-    } else {
-      const seq = new Tone.Sequence((time, note) => {
-        currentSynth.triggerAttackRelease(note, "8n", time);
-        Tone.Draw.schedule(() => {
-          lenIndex = (lenIndex + 1) % lens.length;
-          setCurrentWordIndex((currentIndex) => {
-            let nextIndex = (currentIndex + 1) % notes.length;
-            return nextIndex;
-          });
-        }, time);
-      }, noteSequence);
-      seq.start(0);
-      setSequence(seq);
-      Tone.Transport.start();
-      setIsPlaying(true);
-    }
+      },
+      parsedInput.map((obj) => ({ time: obj.time, note: obj.note }))
+    );
+    setSequence(part);
+    part.loop = true;
+    part.start("0m");
+    setIsPlaying(true);
+    Tone.Transport.start();
+    // Tone.start();
+    // const currentSynth = synths
+    //   .find((s) => s.name === synth)
+    //   .synth.toDestination();
+    // const lens = notes.map((obj) => obj.len);
+    // let lenIndex = 0;
+    // if (rhythm) {
+    //   // Get the synth from the select-menu by matching its name with
+    //   // the useState 'synth' value.
+    //   const part = new Tone.Part((time, value) => {
+    //     currentSynth.triggerAttackRelease(value.note, "8n", time);
+    //     // TODO: Create new function for this.
+    //     Tone.Draw.schedule(() => {
+    //       lenIndex = (lenIndex + 1) % lens.length;
+    //       setCurrentWordIndex((currentIndex) => {
+    //         let nextIndex = (currentIndex + 1) % notes.length;
+    //         return nextIndex;
+    //       }, time);
+    //     });
+    //   }, noteSequence);
+    //   setSequence(part);
+    //   part.loop = true; // TODO: Fix stopping now that we're using Part instead...
+    //   part.start("0m");
+    //   Tone.Transport.start();
+    //   setIsPlaying(true);
+    // } else {
+    //   const seq = new Tone.Sequence((time, note) => {
+    //     currentSynth.triggerAttackRelease(note, "8n", time);
+    //     Tone.Draw.schedule(() => {
+    //       lenIndex = (lenIndex + 1) % lens.length;
+    //       setCurrentWordIndex((currentIndex) => {
+    //         let nextIndex = (currentIndex + 1) % notes.length;
+    //         return nextIndex;
+    //       });
+    //     }, time);
+    //   }, noteSequence);
+    //   seq.start(0);
+    //   setSequence(seq);
+    //   Tone.Transport.start();
+    //   setIsPlaying(true);
+    // }
   };
 
   const handleStop = () => {
