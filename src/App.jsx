@@ -70,7 +70,8 @@ function App() {
         <Sidebar
           isShowing={sidebarOpen}
           scales={scales}
-          defaultScale={"Major"}
+          defaultRootNote={rootNote}
+          defaultScale={scale}
           chromaticScale={chromaticScale}
           handleScaleChange={handleScaleChange}
           handleRootNoteChange={handleRootNoteChange}
