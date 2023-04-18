@@ -93,3 +93,5 @@ class Parser {
     return word.includes("?");
   }
 }
+
+export default Parser;
