@@ -37,7 +37,6 @@ class ScaleGenerator {
    * Takes in a root note as a string and the scale as a string.
    * Returns the notes of that scale starting from the root note
    * as an array of strings.
-   *
    * @param {String} rootNote
    * @param {String} scale
    * @returns array of notes
@@ -66,9 +65,8 @@ class ScaleGenerator {
    * Takes in array of notes from a scale and returns an array
    * of notes with a size equal to the alphabet length. This array
    * can then be used to map the user input to notes.
-   *
-   * @param {Array} scale
-   * @returns
+   * @param {Array} scale the scale to pick notes from
+   * @returns an array of length 26 with only notes from the given scale
    */
   mapNotesToAlphabet(scale) {
     let noteMapping = [];
