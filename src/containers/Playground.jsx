@@ -50,6 +50,8 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
 
   return (
     <div className="relative top-0 z-0 flex h-full flex-grow flex-col items-center justify-center bg-gradient-to-br from-white to-amber-50 p-20">
+      <div className="flex flex-wrap items-center justify-center">
+        <div className="grid grid-cols-2 overflow-auto">
           {tracks.map((track) => (
             <Track
               key={track.key}
@@ -65,6 +67,8 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
               rootNote={rootNote}
             />
           ))}
+        </div>
+      </div>
       <ButtonPrimary
         icon={<MdOutlineAddCircleOutline className="mr-2" size="25px" />}
         edit="w-30 mb-10 right-10 flex justify-center items-center text-center"
