@@ -8,6 +8,7 @@ const Sidebar = ({
   chromaticScale,
   scales,
   defaultScale,
+  defaultRootNote,
   mapping,
 }) => {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -29,7 +30,7 @@ const Sidebar = ({
         <select
           className="ml-5 mt-[5px] h-5 w-12 rounded-md bg-stone-50 indent-1"
           onChange={handleRootNoteChange}
-          defaultValue={chromaticScale[0]}
+          defaultValue={defaultRootNote}
         >
           {chromaticScale.map((note, index) => (
             <option key={index} value={note}>
