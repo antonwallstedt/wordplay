@@ -124,6 +124,10 @@ const Track = ({
 
   // TODO: Move this into WordSynth.jsx
   const handlePlay = () => {
+    Tone.start();
+    const currentSynth = synths
+      .find((s) => s.name === synth)
+      .synth.toDestination();
     const lens = notes.map((obj) => obj.len);
     let lenIndex = 0;
     let sequence = [];
@@ -132,52 +136,41 @@ const Track = ({
         time: index * Number(rhythm), // TODO: Use value from input if given, otherwise subdivide based on input length?
         note: obj.note,
       }));
+      // Get the synth from the select-menu by matching its name with
+      // the useState 'synth' value.
+      const part = new Tone.Part((time, value) => {
+        currentSynth.triggerAttackRelease(value.note, "8n", time);
+        // TODO: Create new function for this.
+        Tone.Draw.schedule(() => {
+          lenIndex = (lenIndex + 1) % lens.length;
+          setCurrentWordIndex((currentIndex) => {
+            let nextIndex = (currentIndex + 1) % notes.length;
+            return nextIndex;
+          }, time);
+        });
+      }, sequence);
+      setSequence(part);
+      part.loop = true; // TODO: Fix stopping now that we're using Part instead...
+      part.start("0m");
+      Tone.Transport.start();
+      setIsPlaying(true);
     } else {
       sequence = notes.map((obj) => obj.note);
-    }
-
-    // Get the synth from the select-menu by matching its name with
-    // the useState 'synth' value.
-    const currentSynth = synths
-      .find((s) => s.name === synth)
-      .synth.toDestination();
-    const freeverb = new Tone.Freeverb(0.3).toDestination();
-    const release = lens[lenIndex] * 0.05; // TODO: Figure out a better calculation.
-    const velocity = lens[lenIndex] * 0.05;
-    const part = new Tone.Part((time, value) => {
-      currentSynth.triggerAttackRelease(value.note, "8n", time);
-      // TODO: Create new function for this.
-      Tone.Draw.schedule(() => {
-        lenIndex = (lenIndex + 1) % lens.length;
-        setCurrentWordIndex((currentIndex) => {
-          let nextIndex = (currentIndex + 1) % notes.length;
-          return nextIndex;
+      const seq = new Tone.Sequence((time, note) => {
+        currentSynth.triggerAttackRelease(note, "8n", time);
+        Tone.Draw.schedule(() => {
+          lenIndex = (lenIndex + 1) % lens.length;
+          setCurrentWordIndex((currentIndex) => {
+            let nextIndex = (currentIndex + 1) % notes.length;
+            return nextIndex;
+          });
         }, time);
-      });
-    }, sequence);
-    part.loop = true; // TODO: Fix stopping now that we're using Part instead...
-    part.start("1m");
-    // const seq = new Tone.Sequence((time, note) => {
-    //   currentSynth
-    //     .triggerAttackRelease(
-    //       note,
-    //       release, // Release depends on length of word (see TODO above).
-    //       time,
-    //       velocity // Velocity also depends on length of word (see TODO above).
-    //     )
-    //     .connect(freeverb);
-    //   Tone.Draw.schedule(() => {
-    //     lenIndex = (lenIndex + 1) % lens.length;
-    //     setCurrentWordIndex((currentIndex) => {
-    //       let nextIndex = (currentIndex + 1) % notes.length;
-    //       return nextIndex;
-    //     });
-    //   }, time);
-    // }, notes);
-    // seq.start(0);
-    // setSequence(seq);
-    setIsPlaying(true);
-    Tone.Transport.start();
+      }, sequence);
+      seq.start(0);
+      setSequence(seq);
+      Tone.Transport.start();
+      setIsPlaying(true);
+    }
   };
 
   const handleStop = () => {
