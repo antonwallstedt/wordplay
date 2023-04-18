@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
+import ButtonSecondary from "../components/ButtonSecondary";
+import { FaRegSurprise } from "react-icons/fa";
 
 const Sidebar = ({
   isShowing,
   handleRootNoteChange,
   handleScaleChange,
   handleOctaveChange,
+  handleSurprise,
   chromaticScale,
   scales,
   defaultScale,
   defaultRootNote,
+  defaultOctave,
   mapping,
 }) => {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -30,7 +34,7 @@ const Sidebar = ({
         <select
           className="ml-5 mt-[5px] h-5 w-12 rounded-md bg-stone-50 indent-1"
           onChange={handleRootNoteChange}
-          defaultValue={defaultRootNote}
+          value={defaultRootNote}
         >
           {chromaticScale.map((note, index) => (
             <option key={index} value={note}>
@@ -44,7 +48,7 @@ const Sidebar = ({
         <select
           className="ml-[60px] mt-[5px] h-5 w-40 rounded-md bg-stone-50 indent-1"
           onChange={handleScaleChange}
-          defaultValue={defaultScale}
+          value={defaultScale}
         >
           {scales.map((scale, index) => (
             <option key={index} value={scale}>
@@ -53,11 +57,11 @@ const Sidebar = ({
           ))}
         </select>
       </div>
-      <div className="row-span-2 mb-5 flex flex-row border-b-2 border-stone-500 border-opacity-30 pb-5">
+      <div className="flex-rowpb-5 row-span-2 mb-5 flex">
         <h2 className="text-xl font-semibold drop-shadow-sm">Octave</h2>
         <select
           className="ml-11 mt-[5px] h-5 w-10 rounded-md bg-stone-50 indent-1"
-          defaultValue={"4"}
+          value={defaultOctave}
           onChange={handleOctaveChange}
         >
           {[2, 3, 4, 5, 6].map((octave, index) => (
@@ -67,6 +71,12 @@ const Sidebar = ({
           ))}
         </select>
       </div>
+      <ButtonSecondary
+        text="Surprise me!"
+        edit={"w-30 mb-5 right-10 flex justify-center items-center text-center"}
+        icon={<FaRegSurprise className="mr-2" size={"18px"} />}
+        handleClick={handleSurprise}
+      />
       <h2 className="text-xl font-semibold drop-shadow-sm">Mapping</h2>
       <div className="mt-4 h-full overflow-y-auto rounded-lg bg-stone-100 shadow-sm">
         <ul className="p-5 drop-shadow-md">

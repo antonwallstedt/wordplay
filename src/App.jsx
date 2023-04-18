@@ -53,6 +53,21 @@ function App() {
     setIsPlayingAll(false);
   };
 
+  const handleSurprise = () => {
+    let scales = scaleGenerator.getScales();
+    let notes = scaleGenerator.getChromaticScale();
+    let octaves = [2, 3, 4];
+    let randScale = scales[Math.floor(Math.random() * scales.length)];
+    let randRootNote = notes[Math.floor(Math.random() * notes.length)];
+    let randOctave = octaves[Math.floor(Math.random() * octaves.length)];
+    setScale(randScale);
+    setRootNote(randRootNote);
+    setOctave(randOctave);
+    setMapping(
+      scaleGenerator.createMapping(randRootNote, randScale, Number(randOctave))
+    );
+  };
+
   return (
     <div className="flex h-full flex-col overflow-x-hidden font-inter">
       <Toolbar
@@ -72,10 +87,12 @@ function App() {
           scales={scales}
           defaultRootNote={rootNote}
           defaultScale={scale}
+          defaultOctave={octave}
           chromaticScale={chromaticScale}
           handleScaleChange={handleScaleChange}
           handleRootNoteChange={handleRootNoteChange}
           handleOctaveChange={handleOctaveChange}
+          handleSurprise={handleSurprise}
           mapping={mapping}
         />
       </div>

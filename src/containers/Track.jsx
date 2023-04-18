@@ -34,6 +34,7 @@ const Track = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [sequence, setSequence] = useState(null);
+  const [noteSequence, setNoteSequence] = useState(null);
   const [synth, setSynth] = useState(() => {
     if (inputSynth) return inputSynth;
     else return "Synth";
@@ -64,6 +65,19 @@ const Track = ({
       }
     }
   }, [scale]);
+
+  useEffect(() => {
+    setNoteSequence(() => {
+      if (rhythm) {
+        return notes.map((obj, index) => ({
+          time: index * Number(rhythm), // TODO: Use value from input if given, otherwise subdivide based on input length?
+          note: obj.note,
+        }));
+      } else {
+        return notes.map((obj) => obj.note);
+      }
+    });
+  }, [notes]);
 
   // TODO: allow highlight of individual characters.
   // TODO: Fix issue when you only have one word.
@@ -111,7 +125,6 @@ const Track = ({
 
   const handleRhythmInput = ({ target }) => {
     // TODO: Run Parser.jsx to validate input
-    // TODO: Connect to handlePlay
     setRhythm(target.value);
   };
 
@@ -130,12 +143,7 @@ const Track = ({
       .synth.toDestination();
     const lens = notes.map((obj) => obj.len);
     let lenIndex = 0;
-    let sequence = [];
     if (rhythm) {
-      sequence = notes.map((obj, index) => ({
-        time: index * Number(rhythm), // TODO: Use value from input if given, otherwise subdivide based on input length?
-        note: obj.note,
-      }));
       // Get the synth from the select-menu by matching its name with
       // the useState 'synth' value.
       const part = new Tone.Part((time, value) => {
@@ -148,14 +156,13 @@ const Track = ({
             return nextIndex;
           }, time);
         });
-      }, sequence);
+      }, noteSequence);
       setSequence(part);
       part.loop = true; // TODO: Fix stopping now that we're using Part instead...
       part.start("0m");
       Tone.Transport.start();
       setIsPlaying(true);
     } else {
-      sequence = notes.map((obj) => obj.note);
       const seq = new Tone.Sequence((time, note) => {
         currentSynth.triggerAttackRelease(note, "8n", time);
         Tone.Draw.schedule(() => {
@@ -165,7 +172,7 @@ const Track = ({
             return nextIndex;
           });
         }, time);
-      }, sequence);
+      }, noteSequence);
       seq.start(0);
       setSequence(seq);
       Tone.Transport.start();
