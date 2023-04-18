@@ -50,18 +50,21 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
 
   return (
     <div className="relative top-0 z-0 flex h-full flex-grow flex-col items-center justify-center bg-gradient-to-br from-white to-amber-50 p-20">
-      {tracks.map((track) => (
-        <Track
-          key={track.key}
-          id={track.id}
-          inputText={track.text}
-          onDelete={handleDelete}
-          isPlayingAll={isPlayingAll}
-          scale={scale}
-          octave={octave}
-          rootNote={rootNote}
-        />
-      ))}
+          {tracks.map((track) => (
+            <Track
+              key={track.key}
+              id={track.id}
+              inputText={track.text}
+              onDelete={handleDelete}
+              isPlayingAll={isPlayingAll}
+              scale={scale}
+              octave={octave}
+              inputOctave={track.octave}
+              inputRhythm={track.rhythm}
+              inputSynth={track.instrument}
+              rootNote={rootNote}
+            />
+          ))}
       <ButtonPrimary
         icon={<MdOutlineAddCircleOutline className="mr-2" size="25px" />}
         edit="w-30 mb-10 right-10 flex justify-center items-center text-center"
