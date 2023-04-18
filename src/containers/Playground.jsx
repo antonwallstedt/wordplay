@@ -4,7 +4,40 @@ import ButtonPrimary from "../components/ButtonPrimary";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
 
 const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
-  const defaultTracks = [{ key: 0, id: 0, text: "Hello my name is Anton" }];
+  const defaultTracks = [
+    {
+      key: 0,
+      id: 0,
+      text: "This is our funky bass",
+      octave: 2,
+      rhythm: "0.5",
+      instrument: "Synth",
+    },
+    {
+      key: 1,
+      id: 1,
+      text: "Of course we want some hats too",
+      octave: 4,
+      rhythm: "0.33",
+      instrument: "Pluck",
+    },
+    {
+      key: 2,
+      id: 2,
+      text: "And maybe a kick on that",
+      octave: 2,
+      rhythm: "0.5",
+      instrument: "Membrane",
+    },
+    {
+      key: 3,
+      id: 3,
+      text: "And lastly some lead",
+      octave: 2,
+      rhythm: "0.5",
+      instrument: "AM",
+    },
+  ];
   const [tracks, setTracks] = useState(defaultTracks);
 
   const handleAdd = () => {
