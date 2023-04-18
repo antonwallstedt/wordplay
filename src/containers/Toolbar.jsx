@@ -19,7 +19,7 @@ function Toolbar({ handleSideBarOpen, handlePlayAll, handleStopAll }) {
         <h2 className="mt-1 text-lg font-semibold">BPM</h2>
         <input
           className="-ml-2 mt-1 h-7 w-12 rounded-md indent-1"
-          placeholder="90"
+          defaultValue="90"
           onChange={handleBpmChange}
         />
       </div>
