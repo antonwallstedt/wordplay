@@ -191,7 +191,7 @@ const Track = ({
   };
 
   return (
-    <div className="flex flex-row items-center justify-center">
+    <div className="flex items-center justify-center text-center">
       <div
         className={
           "relative mb-10 mr-2 w-[300px] rounded-lg bg-stone-400 p-5 drop-shadow-lg transition-transform duration-500 ease-in-out " +
