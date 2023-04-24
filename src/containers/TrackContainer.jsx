@@ -114,6 +114,16 @@ const TrackContainer = ({
     setCurrentWordIndex(-1);
   };
 
+  const calculateLoopEnd = (notes) => {
+    let lastNoteTime = Tone.Time(notes[notes.length - 1].time).toSeconds();
+    let loopEnd = Tone.Time("1m").toSeconds();
+    console.log(lastNoteTime, loopEnd);
+    while (lastNoteTime > loopEnd) {
+      loopEnd += Tone.Time("2n").toSeconds();
+    }
+    return loopEnd;
+  };
+
   // TODO: Sometimes when you start the track it doesn't start on the first measure
   const handlePlay = () => {
     if (isPlaying) return;
@@ -136,6 +146,7 @@ const TrackContainer = ({
         }, time);
       });
     }, notes);
+    part.loopEnd = calculateLoopEnd(notes);
     part.loop = true;
     part.start("0m", 0);
     Tone.Transport.start();
