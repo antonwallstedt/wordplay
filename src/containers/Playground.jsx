@@ -29,7 +29,7 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
       <div className="flex w-full flex-wrap items-center justify-center">
         <div className="grid w-full grid-cols-1 overflow-auto">
           {tracks.map((track) => (
-            <Track
+            <TrackContainer
               key={track.key}
               id={track.id}
               inputText={track.text}
