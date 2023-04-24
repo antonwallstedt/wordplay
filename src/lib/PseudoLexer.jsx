@@ -45,8 +45,8 @@ class PseudoLexer {
     else return "8n";
   }
 
-  // paranthesis: this.containsParanthesis(word),
-  // question: this.containsQuestionMark(word),
+  // TODO: paranthesis: this.containsParanthesis(word),
+  // TODO: question: this.containsQuestionMark(word),
 
   interpret(userInput, scale, octave) {
     let parsedInput = this.parser.parseInput(userInput);
