@@ -26,7 +26,7 @@ const Track = ({
         <input
           className="mt-5 w-full rounded-md p-1 indent-2 drop-shadow-md"
           maxLength="80"
-          placeholder={displayText}
+          value={displayText}
           onChange={handleChange}
         />
         <div className="float-left mt-5 flex gap-4">
