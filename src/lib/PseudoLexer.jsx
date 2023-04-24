@@ -67,12 +67,7 @@ class PseudoLexer {
         velocity: this.calculateVelocity(word, cleanWord),
         note: note,
       });
-      if (parsedInput.length % 2 === 0) {
-        rhythm += this.quarterNote + offset;
-      } else {
-        console.log("Hello there");
-        rhythm += this.halfNoteTriplet + offset;
-      }
+      rhythm += this.quarterNote + offset;
       offset = 0;
     }
     return result;
