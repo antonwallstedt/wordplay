@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ButtonSecondary from "../components/ButtonSecondary";
 import { AiOutlineDelete } from "react-icons/ai";
-import { GiHamburgerMenu } from "react-icons/gi";
 import WordSynth from "../lib/WordSynth";
 import ScaleGenerator from "../lib/ScaleGenerator";
 import PseudoLexer from "../lib/PseudoLexer";
@@ -45,7 +44,6 @@ const Track = ({
     if (inputSynth) return inputSynth;
     else return "Synth";
   });
-  const [hamburgerMenu, setHamburgerMenu] = useState(false);
 
   useEffect(() => {
     // Only play this track if it's not already playing.
@@ -86,7 +84,7 @@ const Track = ({
         return notes.map((obj) => obj.note);
       }
     });
-  }, [notes]);
+  }, [notes, rhythm]);
 
   // TODO: allow highlight of individual characters.
   // TODO: Fix issue when you only have one word.
@@ -123,10 +121,6 @@ const Track = ({
         );
       }
     }
-  };
-
-  const handleHamburgerMenu = () => {
-    setHamburgerMenu(!hamburgerMenu);
   };
 
   const handleSynthSelect = ({ target }) => {
