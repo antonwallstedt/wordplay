@@ -18,6 +18,7 @@ class Parser {
           comma: this.containsComma(word),
           paranthesis: this.containsParanthesis(word),
           punctuation: this.containsPunctuation(word),
+          tripleDots: this.containsTripleDots(word),
           semicolon: this.containsSemicolon(word),
           colon: this.containsColon(word),
           exclamation: this.containsExclamation(word),
@@ -60,7 +61,15 @@ class Parser {
    * @returns boolean indicating presence of punctuation
    */
   containsPunctuation(word) {
-    return word.includes(".");
+    if (!this.containsTripleDots(word)) return word.includes(".");
+  }
+
+  /**
+   * @param {String} word
+   * @returns boolean indicating presence of '...'
+   */
+  containsTripleDots(word) {
+    return word.includes("...");
   }
 
   /**
