@@ -83,6 +83,8 @@ const TrackContainer = ({
   };
 
   const handleChange = ({ target }) => {
+    let newNotes = lexer.interpret(target.value, scale, currentOctave);
+    setNotes(newNotes);
     setText(target.value);
     if (isPlaying) {
       // TODO: Update notes on change
@@ -91,8 +93,18 @@ const TrackContainer = ({
       // TODO:    > to the start
       // TODO:    > somewhere in the middle
       // TODO:  - changing an existing word
+      // TODO: - removing words
+
+      part.clear();
+      for (var note of newNotes) {
+        part.add(note.time, note);
+      }
+      part.loopEnd = calculateLoopEnd(newNotes);
+
+      setTotalLength(() => {
+        return newNotes.length;
+      });
     }
-    setNotes(lexer.interpret(target.value, scale, currentOctave));
   };
 
   const handleSynthSelect = ({ target }) => {
