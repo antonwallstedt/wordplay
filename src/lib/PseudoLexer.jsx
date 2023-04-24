@@ -1,19 +1,30 @@
 import Parser from "./Parser";
 import WordSynth from "./WordSynth";
+import * as Tone from "tone";
 
 class PseudoLexer {
   constructor() {
     this.parser = new Parser();
     this.wordSynth = new WordSynth();
+    this.wholeNote = Tone.Time("1n").toSeconds();
+    this.wholeNoteTriplet = Tone.Time("1t").toSeconds();
+    this.halfNote = Tone.Time("2n").toSeconds();
+    this.halfNoteTriplet = Tone.Time("2t").toSeconds();
+    this.quarterNote = Tone.Time("4n").toSeconds();
+    this.quarterNoteTriplet = Tone.Time("4t").toSeconds();
+    this.eightNote = Tone.Time("8n").toSeconds();
+    this.eightNoteTriplet = Tone.Time("8t").toSeconds();
+    this.sixteenthNote = Tone.Time("16n").toSeconds();
+    this.sixteenthNoteTriplet = Tone.Time("16t").toSeconds();
   }
 
   interpretSeparator(parsedWord) {
-    if (parsedWord.comma) return 0.25;
-    if (parsedWord.punctuation) return 0.5;
-    if (parsedWord.tripleDots) return 1;
-    if (parsedWord.semicolon) return 0.33;
-    if (parsedWord.colon) return 0.75;
-    if (parsedWord.exclamation) return 0.33;
+    if (parsedWord.comma) return this.sixteenthNote;
+    if (parsedWord.semicolon) return this.eightNote;
+    if (parsedWord.colon) return this.eightNoteTriplet;
+    if (parsedWord.punctuation) return this.halfNote;
+    if (parsedWord.tripleDots) return this.wholeNote;
+    if (parsedWord.exclamation) return this.quarterNoteTriplet;
     else return 0;
   }
 
@@ -47,16 +58,21 @@ class PseudoLexer {
       let cleanWord = parsedInput[i].cleanWord;
       let note = this.wordSynth
         .getNote(cleanWord, scale)
-        .replace(/\d+/g, String(octave)); // Must replace default octave with individual octave
+        .replace(/\d+/g, String(octave));
       offset = this.interpretSeparator(parsedInput[i]);
       result.push({
         word: word,
+        time: rhythm,
         duration: this.calculateDuration(cleanWord),
         velocity: this.calculateVelocity(word, cleanWord),
         note: note,
-        time: rhythm,
       });
-      rhythm += 0.25 + offset;
+      if (parsedInput.length % 2 === 0) {
+        rhythm += this.quarterNote + offset;
+      } else {
+        console.log("Hello there");
+        rhythm += this.halfNoteTriplet + offset;
+      }
       offset = 0;
     }
     return result;
