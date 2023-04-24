@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Track from "./Track";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
+import TrackContainer from "./TrackContainer";
 
 const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
   const defaultTracks = [
