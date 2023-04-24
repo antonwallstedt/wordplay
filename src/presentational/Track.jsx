@@ -10,8 +10,6 @@ const Track = ({
   handleDelete,
   handleSynthSelect,
   synth,
-  inputRhythm,
-  handleRhythmInput,
   currentOctave,
   handleOctaveChange,
   handlePlay,
@@ -54,14 +52,6 @@ const Track = ({
       </div>
       <div className="my-10 mb-10 ml-5 h-full w-auto rounded-3xl bg-stone-400 p-5 drop-shadow-lg">
         <div className="flex flex-col">
-          <div className="flex flex-row">
-            <h3 className="text-md font-semibold">Rhythm</h3>
-            <input
-              className="mb-2 ml-2 w-24 rounded-md indent-2 font-jetbrains"
-              defaultValue={inputRhythm}
-              onChange={handleRhythmInput}
-            />
-          </div>
           <div className="flex flex-row">
             <h3 className="text-md font-semibold drop-shadow-sm">Octave</h3>
             <select

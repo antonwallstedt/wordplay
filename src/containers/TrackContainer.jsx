@@ -12,17 +12,13 @@ const TrackContainer = ({
   isPlayingAll,
   inputText,
   inputOctave,
-  inputRhythm,
   inputSynth,
   scale,
   octave,
 }) => {
   const lexer = new PseudoLexer();
-  const wordSynth = new WordSynth();
-  const scaleGenerator = new ScaleGenerator();
   const [text, setText] = useState(inputText);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
-  const [rhythm, setRhythm] = useState(inputRhythm);
   const [isPlaying, setIsPlaying] = useState(false);
   const [part, setPart] = useState(null);
 
@@ -93,10 +89,6 @@ const TrackContainer = ({
     setSynth(synths.find((synth) => synth.name === target.value).name);
   };
 
-  const handleRhythmInput = ({ target }) => {
-    setRhythm(target.value);
-  };
-
   const handleOctaveChange = ({ target }) => {
     setCurrentOctave(target.value);
     setNotes(lexer.interpret(text, scale, target.value));
@@ -148,8 +140,6 @@ const TrackContainer = ({
       handleDelete={handleDelete}
       handleSynthSelect={handleSynthSelect}
       synth={synth}
-      inputRhythm={inputRhythm}
-      handleRhythmInput={handleRhythmInput}
       currentOctave={currentOctave}
       handleOctaveChange={handleOctaveChange}
       handlePlay={handlePlay}

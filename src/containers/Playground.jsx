@@ -10,7 +10,6 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
       id: 0,
       text: "Hello, welcome to WordPlay",
       octave: 2,
-      rhythm: "0.5",
       instrument: "Synth",
     },
   ];
@@ -38,7 +37,6 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
               scale={scale}
               octave={octave}
               inputOctave={track.octave}
-              inputRhythm={track.rhythm}
               inputSynth={track.instrument}
               rootNote={rootNote}
             />
