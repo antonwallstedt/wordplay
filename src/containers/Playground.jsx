@@ -8,7 +8,7 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
     {
       key: 0,
       id: 0,
-      text: "Hello, welcome to WordPlay",
+      text: "Hello world; welcome to WordPlay!",
       octave: 2,
       instrument: "Synth",
     },
