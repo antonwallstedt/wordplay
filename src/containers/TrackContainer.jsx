@@ -50,13 +50,16 @@ const TrackContainer = ({
     }
   }, [isPlayingAll]);
 
-  // TODO: Update stored sequence if
-  // TODO:  - mapping changes in the sidebar
-  // TODO:  - rhythm changes in the minibar
-  // TODO:  - user presses surprise button
+  // Update notes if the scale changes from the sidebar
   useEffect(() => {
     if (text) {
       setNotes(lexer.interpret(text, scale, currentOctave));
+      if (isPlaying) {
+        let newNotes = lexer.interpret(text, scale, currentOctave);
+        for (var noteObj of newNotes) {
+          part.at(noteObj.time).value.note = noteObj.note;
+        }
+      }
     }
   }, [scale]);
 
