@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ButtonSecondary from "../components/ButtonSecondary";
 import { FaRegSurprise } from "react-icons/fa";
 
@@ -20,7 +20,7 @@ const Sidebar = ({
     <div
       className={
         "absolute right-0 z-0 mt-0 flex h-[90%] w-96 flex-col rounded-bl-xl bg-gradient-to-b from-stone-300 to-stone-400 p-10 drop-shadow-lg transition-transform duration-500 ease-in-out " +
-        (isShowing && "translate-x-[100%]")
+        (!isShowing && "translate-x-[100%]")
       }
     >
       <h1 className="text-2xl font-semibold drop-shadow-md">Edit Rule Set</h1>
