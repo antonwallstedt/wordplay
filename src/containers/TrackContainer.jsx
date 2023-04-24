@@ -29,6 +29,8 @@ const TrackContainer = ({
     if (inputText) return lexer.interpret(inputText, scale, currentOctave);
     else return [];
   });
+  // TODO: Total length doesn't seem to work for highlighting
+  const [totalLength, setTotalLength] = useState(notes.length);
 
   const [synth, setSynth] = useState(() => {
     // If a synth is pre-supplied use that, otherwise
@@ -82,6 +84,10 @@ const TrackContainer = ({
 
   const handleChange = ({ target }) => {
     let newNotes = lexer.interpret(target.value, scale, currentOctave);
+
+    // Need to come up with something different for this...
+    // `notes` in Tone.Draw doesn't get updated from this call
+    // so the highlighting doesn't work...
     setNotes(newNotes);
     setText(target.value);
     if (isPlaying) {
@@ -151,10 +157,9 @@ const TrackContainer = ({
       );
 
       Tone.Draw.schedule(() => {
-        setCurrentWordIndex((currentIndex) => {
-          return (currentIndex + 1) % notes.length;
-        }, time);
-      });
+        // TODO: Fix issue with word highlighting when adding more words
+        setCurrentWordIndex(notes.indexOf(value));
+      }, time);
     }, notes);
     part.loopEnd = calculateLoopEnd(notes);
     part.loop = true;
