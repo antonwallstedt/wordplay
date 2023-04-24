@@ -27,7 +27,7 @@ class WordSynth {
    */
   getNote(word, scale) {
     let letterIndices = [];
-    for (const letter of word) {
+    for (const letter of word.toLowerCase()) {
       letterIndices.push(this.alphabet.indexOf(letter));
     }
     let note =
