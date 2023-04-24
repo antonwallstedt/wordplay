@@ -82,6 +82,14 @@ const TrackContainer = ({
 
   const handleChange = ({ target }) => {
     setText(target.value);
+    if (isPlaying) {
+      // TODO: Update notes on change
+      // TODO:  - adding more words
+      // TODO:    > to the end
+      // TODO:    > to the start
+      // TODO:    > somewhere in the middle
+      // TODO:  - changing an existing word
+    }
     setNotes(lexer.interpret(target.value, scale, currentOctave));
   };
 
