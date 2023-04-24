@@ -223,13 +223,39 @@ const Track = ({
   };
 
   return (
-    <div className="flex items-center justify-center text-center">
-      <div
-        className={
-          "relative mb-10 mr-2 w-[300px] rounded-lg bg-stone-400 p-5 drop-shadow-lg transition-transform duration-500 ease-in-out " +
-          (!hamburgerMenu && "translate-x-[100%]")
-        }
-      >
+    <div className="flex w-full items-center justify-center pb-10 text-center">
+      <div className="flex w-full flex-col items-center justify-between rounded-3xl bg-gradient-to-b from-stone-400 to-stone-500 px-10 py-5 drop-shadow-lg">
+        <div className="flex items-center justify-center">
+          {text.split(" ").map((word, index) => highlightWord(word, index))}
+        </div>
+        <input
+          className="mt-5 w-full rounded-md p-1 indent-2 drop-shadow-md"
+          maxLength="48"
+          placeholder={text}
+          onChange={handleChange}
+        />
+        <div className="float-left mt-5 flex gap-4">
+          <ButtonSecondary text="Play" handleClick={() => handlePlay(text)} />
+          <ButtonSecondary text="Stop" handleClick={handleStop} />
+          <ButtonSecondary
+            edit="float-right"
+            icon={<AiOutlineDelete size="20px" />}
+            handleClick={handleDelete}
+          />
+          <select
+            className="rounded-md indent-1"
+            onChange={handleSynthSelect}
+            defaultValue={synth}
+          >
+            {synths.map(({ name, synth }, index) => (
+              <option key={index} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="my-10 mb-10 ml-5 h-full w-auto rounded-3xl bg-stone-400 p-5 drop-shadow-lg">
         <div className="flex flex-col">
           <div className="flex flex-row">
             <h3 className="text-md font-semibold">Rhythm</h3>
@@ -253,54 +279,6 @@ const Track = ({
               ))}
             </select>
           </div>
-        </div>
-      </div>
-      <div
-        className={
-          "mb-10 flex max-w-2xl flex-col items-center justify-between rounded-3xl bg-gradient-to-b from-stone-400 to-stone-500 px-10 py-5 drop-shadow-lg transition-transform duration-500 ease-in-out " +
-          (hamburgerMenu ? "" : "-translate-x-[150px]")
-        }
-      >
-        <div className="flex items-center justify-center">
-          {text.split(" ").map((word, index) => highlightWord(word, index))}
-        </div>
-        <input
-          className="mt-5 w-full rounded-md p-1 indent-2 drop-shadow-md"
-          maxLength="48"
-          placeholder={text}
-          onChange={handleChange}
-        />
-        <div className="float-left mt-5 flex gap-4">
-          <ButtonSecondary
-            icon={
-              <GiHamburgerMenu
-                className={
-                  "transition-transform duration-500 ease-in-out " +
-                  (hamburgerMenu && "rotate-90")
-                }
-                size="20px"
-              />
-            }
-            handleClick={handleHamburgerMenu}
-          />
-          <ButtonSecondary text="Play" handleClick={() => handlePlay(text)} />
-          <ButtonSecondary text="Stop" handleClick={handleStop} />
-          <ButtonSecondary
-            edit="float-right"
-            icon={<AiOutlineDelete size="20px" />}
-            handleClick={handleDelete}
-          />
-          <select
-            className="rounded-md indent-1"
-            onChange={handleSynthSelect}
-            defaultValue={synth}
-          >
-            {synths.map(({ name, synth }, index) => (
-              <option key={index} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
     </div>

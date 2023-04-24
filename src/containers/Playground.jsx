@@ -13,30 +13,6 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
       rhythm: "0.5",
       instrument: "Synth",
     },
-    // {
-    //   key: 1,
-    //   id: 1,
-    //   text: "Of course we want some hats too",
-    //   octave: 4,
-    //   rhythm: "0.33",
-    //   instrument: "Pluck",
-    // },
-    // {
-    //   key: 2,
-    //   id: 2,
-    //   text: "And maybe a kick on that",
-    //   octave: 2,
-    //   rhythm: "0.5",
-    //   instrument: "Membrane",
-    // },
-    // {
-    //   key: 3,
-    //   id: 3,
-    //   text: "And lastly some lead",
-    //   octave: 2,
-    //   rhythm: "0.5",
-    //   instrument: "AM",
-    // },
   ];
   const [tracks, setTracks] = useState(defaultTracks);
 
@@ -50,8 +26,8 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
 
   return (
     <div className="relative top-0 z-0 flex h-full flex-grow flex-col items-center justify-center bg-gradient-to-br from-white to-amber-50 p-20">
-      <div className="flex flex-wrap items-center justify-center">
-        <div className="grid grid-cols-2 overflow-auto">
+      <div className="flex w-full flex-wrap items-center justify-center">
+        <div className="grid w-full grid-cols-1 overflow-auto">
           {tracks.map((track) => (
             <Track
               key={track.key}
