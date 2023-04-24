@@ -91,14 +91,6 @@ const TrackContainer = ({
     setNotes(newNotes);
     setText(target.value);
     if (isPlaying) {
-      // TODO: Update notes on change
-      // TODO:  - adding more words
-      // TODO:    > to the end
-      // TODO:    > to the start
-      // TODO:    > somewhere in the middle
-      // TODO:  - changing an existing word
-      // TODO: - removing words
-
       part.clear();
       for (var note of newNotes) {
         part.add(note.time, note);
