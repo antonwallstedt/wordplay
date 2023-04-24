@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import PseudoLexer from "../lib/PseudoLexer";
-import ScaleGenerator from "../lib/ScaleGenerator";
-import WordSynth from "../lib/WordSynth";
 import { synths } from "../utils/Synths";
 import * as Tone from "tone";
 import Track from "../presentational/Track";
