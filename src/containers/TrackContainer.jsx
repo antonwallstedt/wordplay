@@ -42,10 +42,8 @@ const TrackContainer = ({
   useEffect(() => {
     if (isPlayingAll && !isPlaying) {
       setIsPlaying(true);
-      // TODO: Handle play
       handlePlay();
     } else {
-      // TODO: Handle stop
       handleStop();
     }
   }, [isPlayingAll]);
