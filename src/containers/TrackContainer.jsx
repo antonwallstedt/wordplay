@@ -106,6 +106,7 @@ const TrackContainer = ({
 
   // TODO: Sometimes when you start the track it doesn't start on the first measure
   const handlePlay = () => {
+    if (isPlaying) return;
     Tone.start();
     const currentSynth = synths
       .find((s) => s.name === synth)
