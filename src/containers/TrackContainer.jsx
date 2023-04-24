@@ -138,7 +138,7 @@ const TrackContainer = ({
       });
     }, notes);
     part.loop = true;
-    part.start("0m");
+    part.start("0m", 0);
     Tone.Transport.start();
     setIsPlaying(true);
     setPart(part);
