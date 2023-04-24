@@ -134,7 +134,8 @@ const TrackContainer = ({
     let lastNoteTime = Tone.Time(notes[notes.length - 1].time).toSeconds();
     let loopEnd = Tone.Time("1m").toSeconds();
     console.log(lastNoteTime, loopEnd);
-    while (lastNoteTime > loopEnd) {
+    while (lastNoteTime >= loopEnd) {
+      // TODO: Run more tests with this to see what is suitable
       loopEnd += Tone.Time("2n").toSeconds();
     }
     return loopEnd;
