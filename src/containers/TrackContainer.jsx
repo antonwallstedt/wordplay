@@ -78,6 +78,7 @@ const TrackContainer = ({
   };
 
   const handleDelete = () => {
+    handleStop();
     onDelete(id);
   };
 
