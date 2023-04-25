@@ -165,7 +165,7 @@ const TrackContainer = ({
       .find((s) => s.name === synth)
       .synth.toDestination();
 
-    const part = new Tone.Part((time, value) => {
+    const notePart = new Tone.Part((time, value) => {
       currentSynth.triggerAttackRelease(
         value.note,
         value.duration,
@@ -178,12 +178,12 @@ const TrackContainer = ({
         setCurrentWordIndex(notes.indexOf(value));
       }, time);
     }, notes);
-    part.loopEnd = calculateLoopEnd(notes);
-    part.loop = true;
-    part.start("0m", 0);
+    notePart.loopEnd = calculateLoopEnd(notes);
+    notePart.loop = true;
+    notePart.start("0m", 0);
     Tone.Transport.start();
     setIsPlaying(true);
-    setPart(part);
+    setPart(notePart);
   };
 
   return (
