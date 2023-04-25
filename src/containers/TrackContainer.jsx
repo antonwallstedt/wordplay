@@ -11,6 +11,7 @@ const TrackContainer = ({
   inputText,
   inputOctave,
   inputSynth,
+  inputSpeed,
   scale,
   octave,
 }) => {
@@ -19,6 +20,11 @@ const TrackContainer = ({
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [part, setPart] = useState(null);
+
+  const [speed, setSpeed] = useState(() => {
+    if (inputSpeed) return inputSpeed;
+    else return 1;
+  });
 
   const [currentOctave, setCurrentOctave] = useState(() => {
     if (inputOctave) return inputOctave;
@@ -29,6 +35,13 @@ const TrackContainer = ({
     if (inputText) return lexer.interpret(inputText, scale, currentOctave);
     else return [];
   });
+
+  // When changing the speed, we don't want to modify
+  // our original array of notes, since it applies a scalar
+  // it will not be in relation to the "original notes"
+  // so we keep a separate state as reference that never changes.
+  const [referenceNotes, setReferenceNotes] = useState(notes);
+
   // TODO: Total length doesn't seem to work for highlighting
   const [totalLength, setTotalLength] = useState(notes.length);
 
@@ -68,8 +81,8 @@ const TrackContainer = ({
       <span
         key={index}
         className={
-          "m-1.5 items-center justify-center rounded-md px-1 text-center font-jetbrains text-xl font-semibold drop-shadow-md " +
-          (isPlaying && index === currentWordIndex ? "bg-green-900" : "")
+          "items-center justify-center rounded-md px-1 text-center font-jetbrains text-xl font-semibold drop-shadow-md " +
+          (isPlaying && index === currentWordIndex ? "bg-green-700" : "")
         }
       >
         {word}
