@@ -18,7 +18,7 @@ const Track = ({
   handleStop,
 }) => {
   return (
-    <div className="flex w-full items-center justify-center pb-10 text-center">
+    <div className="flex w-full items-center justify-center pb-3 text-center">
       <div className="flex w-full flex-col items-center justify-between rounded-3xl bg-gradient-to-b from-stone-400 to-stone-500 px-10 py-5 drop-shadow-lg">
         <div className="flex items-center justify-center">
           {displayText
@@ -52,12 +52,12 @@ const Track = ({
           </select>
         </div>
       </div>
-      <div className="my-10 mb-10 ml-5 h-full w-auto rounded-3xl bg-stone-400 p-5 drop-shadow-lg">
-        <div className="flex flex-col">
+      <div className="my-10 mb-10 ml-5 h-full w-auto rounded-3xl bg-stone-400 p-3 drop-shadow-lg">
+        <div className="flex h-full flex-col overflow-auto rounded-2xl bg-stone-300 p-2 drop-shadow-lg">
           <div className="flex flex-row">
             <h3 className="text-md font-semibold drop-shadow-sm">Octave</h3>
             <select
-              className="ml-3 mt-[3px] h-5 w-10 rounded-md bg-stone-50 indent-1"
+              className="ml-3 mt-[3px] h-5 w-[65px] rounded-md bg-stone-50 indent-1"
               defaultValue={currentOctave}
               onChange={handleOctaveChange}
             >

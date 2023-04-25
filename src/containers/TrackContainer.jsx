@@ -82,7 +82,9 @@ const TrackContainer = ({
         key={index}
         className={
           "items-center justify-center rounded-md px-1 text-center font-jetbrains text-xl font-semibold drop-shadow-md " +
-          (isPlaying && index === currentWordIndex ? "bg-green-700" : "")
+          (isPlaying && index === currentWordIndex
+            ? "bg-green-700 bg-opacity-80"
+            : "")
         }
       >
         {word}
@@ -191,8 +193,6 @@ const TrackContainer = ({
       handleChange={handleChange}
       handleDelete={handleDelete}
       handleSynthSelect={handleSynthSelect}
-      synth={synth}
-      currentOctave={currentOctave}
       handleOctaveChange={handleOctaveChange}
       handlePlay={handlePlay}
       handleStop={handleStop}
