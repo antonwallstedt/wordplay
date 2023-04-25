@@ -11,7 +11,9 @@ const Track = ({
   handleSynthSelect,
   synth,
   currentOctave,
+  currentSpeed,
   handleOctaveChange,
+  handleSpeedChange,
   handlePlay,
   handleStop,
 }) => {
@@ -60,6 +62,20 @@ const Track = ({
               onChange={handleOctaveChange}
             >
               {[2, 3, 4, 5, 6].map((octave, index) => (
+                <option key={index} value={octave}>
+                  {octave}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mt-2 flex flex-row">
+            <h3 className="text-md font-semibold drop-shadow-sm">Speed</h3>
+            <select
+              className="ml-[17px] mt-[3px] h-5 w-[65px] rounded-md bg-stone-50 indent-1"
+              defaultValue={currentSpeed}
+              onChange={handleSpeedChange}
+            >
+              {[1 / 8, 1 / 4, 1 / 2, 1, 1.5, 2].map((octave, index) => (
                 <option key={index} value={octave}>
                   {octave}
                 </option>

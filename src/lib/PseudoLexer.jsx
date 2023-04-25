@@ -72,6 +72,12 @@ class PseudoLexer {
     }
     return result;
   }
+
+  changeSpeed(referenceNotes, amount) {
+    let newNotes = [...referenceNotes];
+    newNotes = newNotes.map((obj) => ({ ...obj, time: obj.time * amount }));
+    return newNotes;
+  }
 }
 
 export default PseudoLexer;

@@ -97,11 +97,13 @@ const TrackContainer = ({
 
   const handleChange = ({ target }) => {
     let newNotes = lexer.interpret(target.value, scale, currentOctave);
+    if (speed !== 1) newNotes = lexer.changeSpeed(newNotes, speed);
 
     // Need to come up with something different for this...
     // `notes` in Tone.Draw doesn't get updated from this call
     // so the highlighting doesn't work...
     setNotes(newNotes);
+    setReferenceNotes(newNotes);
     setText(target.value);
     if (isPlaying) {
       part.clear();
@@ -123,6 +125,13 @@ const TrackContainer = ({
   const handleOctaveChange = ({ target }) => {
     setCurrentOctave(target.value);
     setNotes(lexer.interpret(text, scale, target.value));
+  };
+
+  const handleSpeedChange = ({ target }) => {
+    let newNotes = lexer.changeSpeed(referenceNotes, Number(target.value));
+    setNotes(newNotes);
+    setSpeed(Number(target.value));
+    refreshPart(newNotes);
   };
 
   const handleStop = () => {
@@ -187,6 +196,10 @@ const TrackContainer = ({
       handleOctaveChange={handleOctaveChange}
       handlePlay={handlePlay}
       handleStop={handleStop}
+      handleSpeedChange={handleSpeedChange}
+      synth={synth}
+      currentOctave={currentOctave}
+      currentSpeed={speed}
     />
   );
 };
