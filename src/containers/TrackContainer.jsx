@@ -22,6 +22,7 @@ const TrackContainer = ({
   const [text, setText] = useState(inputText);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentNote, setCurrentNote] = useState({});
   const [part, setPart] = useState(null);
 
   const [speed, setSpeed] = useState(() => {
@@ -45,9 +46,6 @@ const TrackContainer = ({
   // so we keep a separate state as reference that never changes.
   const [referenceNotes, setReferenceNotes] = useState(notes);
 
-  // TODO: Total length doesn't seem to work for highlighting
-  const [totalLength, setTotalLength] = useState(notes.length);
-
   const [synth, setSynth] = useState(() => {
     // If a synth is pre-supplied use that, otherwise
     // resort to default "Synth"
@@ -65,10 +63,11 @@ const TrackContainer = ({
     }
   }, [isPlayingAll]);
 
-  // Update notes if the scale changes from the sidebar
+  // Update notes if the scale changes from the sidebar.
   useEffect(() => {
     if (text) {
       setNotes(lexer.interpret(text, scale, currentOctave));
+      setReferenceNotes(lexer.interpret(text, scale, currentOctave));
       if (isPlaying) {
         let newNotes = lexer.interpret(text, scale, currentOctave);
         for (var noteObj of newNotes) {
@@ -188,8 +187,9 @@ const TrackContainer = ({
       );
 
       Tone.Draw.schedule(() => {
-        // TODO: Fix issue with word highlighting when adding more words
-        setCurrentWordIndex(notes.indexOf(value));
+        setCurrentNote(() => {
+          return value;
+        });
       }, time);
     }, notes);
     notePart.loopEnd = calculateLoopEnd(notes);
