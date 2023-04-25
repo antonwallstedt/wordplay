@@ -15,6 +15,9 @@ const TrackContainer = ({
   scale,
   octave,
 }) => {
+  /**
+   * HOOKS
+   */
   const lexer = new PseudoLexer();
   const [text, setText] = useState(inputText);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
@@ -52,6 +55,7 @@ const TrackContainer = ({
     else return "Synth";
   });
 
+  // Start all tracks, if current track is already playing ignore.
   useEffect(() => {
     if (isPlayingAll && !isPlaying) {
       setIsPlaying(true);
@@ -74,6 +78,17 @@ const TrackContainer = ({
     }
   }, [scale]);
 
+  // Update the current word index when the current note changes.
+  useEffect(() => {
+    setCurrentWordIndex(() => {
+      return notes.indexOf(currentNote);
+    });
+  }, [currentNote]);
+
+  /**
+   * HELPER FUNCTIONS
+   */
+
   // TODO: allow highlight of individual characters
   // TODO: fix issue when you only have one word
   const highlightWord = (word, index) => {
@@ -92,6 +107,26 @@ const TrackContainer = ({
     );
   };
 
+  const calculateLoopEnd = (notes) => {
+    let lastNoteTime = Tone.Time(notes[notes.length - 1].time).toSeconds();
+    let loopEnd = Tone.Time("1m").toSeconds();
+    while (lastNoteTime >= loopEnd) {
+      // TODO: Run more tests with this to see what is suitable
+      loopEnd += Tone.Time("2n").toSeconds();
+    }
+    return loopEnd;
+  };
+
+  const refreshPart = (newNotes) => {
+    if (isPlaying) {
+      part.clear();
+      for (var note of newNotes) {
+        part.add(note.time, note);
+      }
+      part.loopEnd = calculateLoopEnd(newNotes);
+    }
+  };
+
   const handleDelete = () => {
     handleStop();
     onDelete(id);
@@ -107,17 +142,7 @@ const TrackContainer = ({
     setNotes(newNotes);
     setReferenceNotes(newNotes);
     setText(target.value);
-    if (isPlaying) {
-      part.clear();
-      for (var note of newNotes) {
-        part.add(note.time, note);
-      }
-      part.loopEnd = calculateLoopEnd(newNotes);
-
-      setTotalLength(() => {
-        return newNotes.length;
-      });
-    }
+    refreshPart(newNotes);
   };
 
   const handleSynthSelect = ({ target }) => {
@@ -144,17 +169,6 @@ const TrackContainer = ({
     }
     setIsPlaying(false);
     setCurrentWordIndex(-1);
-  };
-
-  const calculateLoopEnd = (notes) => {
-    let lastNoteTime = Tone.Time(notes[notes.length - 1].time).toSeconds();
-    let loopEnd = Tone.Time("1m").toSeconds();
-    console.log(lastNoteTime, loopEnd);
-    while (lastNoteTime >= loopEnd) {
-      // TODO: Run more tests with this to see what is suitable
-      loopEnd += Tone.Time("2n").toSeconds();
-    }
-    return loopEnd;
   };
 
   // TODO: Sometimes when you start the track it doesn't start on the first measure
