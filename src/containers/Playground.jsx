@@ -11,6 +11,7 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
       text: "Hello world; welcome to WordPlay!",
       octave: 2,
       instrument: "Synth",
+      speed: 1,
     },
   ];
   const [tracks, setTracks] = useState(defaultTracks);
@@ -24,9 +25,9 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
   };
 
   return (
-    <div className="relative top-0 z-0 flex h-full flex-grow flex-col items-center justify-center bg-gradient-to-br from-white to-amber-50 p-20">
+    <div className="relative top-0 z-0 flex h-full flex-grow flex-col items-center justify-center bg-gradient-to-br from-white to-amber-50 p-10">
       <div className="flex w-full flex-wrap items-center justify-center">
-        <div className="grid w-full grid-cols-1 overflow-auto">
+        <div className="grid h-full w-full grid-cols-1 overflow-auto">
           {tracks.map((track) => (
             <TrackContainer
               key={track.key}
@@ -38,6 +39,7 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
               octave={octave}
               inputOctave={track.octave}
               inputSynth={track.instrument}
+              inputSpeed={track.speed}
               rootNote={rootNote}
             />
           ))}
