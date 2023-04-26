@@ -2,6 +2,11 @@ import Parser from "./Parser";
 import WordSynth from "./WordSynth";
 import * as Tone from "tone";
 
+/**
+ * PseudoLexer.jsx
+ * "Lexes" the user input, by interpreting special characters
+ * and eventually code words.
+ */
 class PseudoLexer {
   constructor() {
     this.parser = new Parser();
@@ -16,8 +21,17 @@ class PseudoLexer {
     this.eightNoteTriplet = Tone.Time("8t").toSeconds();
     this.sixteenthNote = Tone.Time("16n").toSeconds();
     this.sixteenthNoteTriplet = Tone.Time("16t").toSeconds();
+    this.commands = {
+      rootShiftNegative: "root-",
+      rootShiftPositive: "root+",
+    };
   }
 
+  /**
+   * Matches the separator with the appropriate time.
+   * @param {Object} parsedWord parsed word from `Parser.jsx``
+   * @returns time in `Tone.Time.toNotation()` form
+   */
   interpretSeparator(parsedWord) {
     if (parsedWord.comma) return this.sixteenthNote;
     if (parsedWord.semicolon) return this.eightNote;
@@ -28,6 +42,13 @@ class PseudoLexer {
     else return 0;
   }
 
+  /**
+   * Calculates the velocity of a note given the number of
+   * upper-case letters and/or presence of exclamation mark.
+   * @param {Object} parsedWord parsed word from `Parser.jsx`
+   * @param {String} cleanWord word without special characters
+   * @returns velocity
+   */
   calculateVelocity(parsedWord, cleanWord) {
     let velocity = 0.5;
     if (parsedWord.exclamation) velocity += 0.2;
@@ -36,6 +57,12 @@ class PseudoLexer {
     return velocity;
   }
 
+  /**
+   * Calculates the duration of a note depending on its length.
+   * Returns in the `Tone.Time.toNotation()` form.
+   * @param {String} cleanWord word without any special characters
+   * @returns time in musical notation
+   */
   calculateDuration(cleanWord) {
     if (cleanWord.length > 20) return "1n";
     else if (cleanWord.length > 10) return "2n";
@@ -48,6 +75,14 @@ class PseudoLexer {
   // TODO: paranthesis: this.containsParanthesis(word),
   // TODO: question: this.containsQuestionMark(word),
 
+  /**
+   * Interprets the input string. Checks for special characters and
+   * consequently interprets their meaning.
+   * @param {Array} userInput
+   * @param {Array} scale
+   * @param {Number} octave
+   * @returns array of notes
+   */
   interpret(userInput, scale, octave) {
     let parsedInput = this.parser.parseInput(userInput);
     let result = [];
