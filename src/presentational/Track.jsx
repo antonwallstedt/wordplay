@@ -52,7 +52,7 @@ const Track = ({
           </select>
         </div>
       </div>
-      <div className="my-10 mb-10 ml-5 h-full w-auto rounded-3xl bg-stone-400 p-3 drop-shadow-lg">
+      <div className="ml-5 h-full w-auto rounded-3xl bg-stone-400 p-3 drop-shadow-lg">
         <div className="flex h-full flex-col overflow-auto rounded-2xl bg-stone-50 bg-opacity-20 p-2 drop-shadow-lg">
           <div className="flex flex-row">
             <h3 className="text-md font-semibold drop-shadow-sm">Octave</h3>
