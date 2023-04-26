@@ -105,7 +105,7 @@ const TrackContainer = ({
         >
           {obj.word}
         </span>
-        <p className="font-inter text-lg text-stone-900 opacity-60">
+        <p className="font-inter text-sm font-semibold text-stone-900 opacity-70">
           {obj.note}
         </p>
       </div>
