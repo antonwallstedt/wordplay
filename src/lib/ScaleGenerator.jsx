@@ -135,7 +135,7 @@ class ScaleGenerator {
    * @returns an array of the mapping with the new octave
    */
   setOctave(mapping, newOctave) {
-    let newMapping = mapping;
+    let newMapping = [...mapping];
     for (let i = 0; i < mapping.length; i++) {
       newMapping[i].note = newMapping[i].note.replace(
         /\d+/g, // Regex for replacing only the number in the string
@@ -143,6 +143,22 @@ class ScaleGenerator {
       );
     }
     return newMapping;
+  }
+
+  stripOctaves(notes) {
+    return [...notes].map((note) => note.replace(/\d+/g, ""));
+  }
+
+  shiftRoot(referenceNotes, newRoot, scaleNotes, octave) {
+    let newRootIndex = scaleNotes.indexOf(newRoot);
+    let notes = this.stripOctaves(referenceNotes.map((obj) => obj.note));
+    let newMapping = notes.map((note) => {
+      // Offset new notes by how far away the new root note is from the original root note.
+      let currentNoteIndex = scaleNotes.indexOf(note);
+      let newNoteIndex = (currentNoteIndex + newRootIndex) % scaleNotes.length;
+      return scaleNotes[newNoteIndex];
+    });
+    return this.mapOctave(newMapping, Number(octave));
   }
 }
 
