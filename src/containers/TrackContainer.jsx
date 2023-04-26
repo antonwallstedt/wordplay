@@ -70,13 +70,13 @@ const TrackContainer = ({
   // Update notes if the scale changes from the sidebar.
   useEffect(() => {
     if (text) {
-      setNotes(lexer.interpret(text, scale, currentOctave));
-      setReferenceNotes(lexer.interpret(text, scale, currentOctave));
-      if (isPlaying) {
-        let newNotes = lexer.interpret(text, scale, currentOctave);
-        for (var noteObj of newNotes) {
-          part.at(noteObj.time).value.note = noteObj.note;
-        }
+      let newNotes = lexer.interpret(text, mapping, currentOctave);
+      setNotes(newNotes);
+      setReferenceNotes(newNotes);
+      if (speed !== 1)
+        newNotes = lexer.changeSpeed(referenceNotes, newNotes, speed);
+      refreshPart(newNotes);
+    }
       }
     }
   }, [scale]);
@@ -86,7 +86,7 @@ const TrackContainer = ({
     setCurrentWordIndex(() => {
       return notes.indexOf(currentNote);
     });
-  }, [currentNote]);
+  }, [currentNote, notes]);
 
   /**
    * HELPER FUNCTIONS
@@ -144,14 +144,29 @@ const TrackContainer = ({
   };
 
   const handleChange = ({ target }) => {
-    let newNotes = lexer.interpret(target.value, scale, currentOctave);
-    if (speed !== 1) newNotes = lexer.changeSpeed(newNotes, speed);
-
-    // Need to come up with something different for this...
-    // `notes` in Tone.Draw doesn't get updated from this call
-    // so the highlighting doesn't work...
-    setNotes(newNotes);
+    // We want to keep a reference of the original speed before we modify it
+    let newNotes = lexer.interpret(target.value, mapping, currentOctave);
     setReferenceNotes(newNotes);
+
+    // If the user has shifted the root note
+    if (currentRoot !== scaleNotes[0]) {
+      let shiftedNotes = scaleGenerator.shiftRoot(
+        newNotes,
+        currentRoot,
+        scaleNotes,
+        currentOctave
+      );
+
+      newNotes = [...newNotes].map((obj, index) => ({
+        ...obj,
+        note: shiftedNotes[index],
+      }));
+    }
+
+    // Then we can modify it and set the speed of the notes playing
+    if (speed !== 1) newNotes = lexer.changeSpeed(newNotes, notes, speed);
+    setNotes(newNotes);
+    console.log(newNotes);
     setText(target.value);
     refreshPart(newNotes);
   };
