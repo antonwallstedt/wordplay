@@ -126,6 +126,10 @@ const TrackContainer = ({
     }
   };
 
+  /**
+   * EVENT HANDLERS
+   */
+
   const handleDelete = () => {
     handleStop();
     onDelete(id);

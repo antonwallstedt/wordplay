@@ -28,7 +28,7 @@ const Track = ({
         <input
           className="mt-5 w-full rounded-md p-1 indent-2 drop-shadow-md"
           maxLength="80"
-          value={displayText}
+          placeholder={displayText.map((obj) => obj.word).join(" ")}
           onChange={handleChange}
         />
         <div className="float-left mt-5 flex gap-4">
@@ -53,7 +53,7 @@ const Track = ({
         </div>
       </div>
       <div className="my-10 mb-10 ml-5 h-full w-auto rounded-3xl bg-stone-400 p-3 drop-shadow-lg">
-        <div className="flex h-full flex-col overflow-auto rounded-2xl bg-stone-300 p-2 drop-shadow-lg">
+        <div className="flex h-full flex-col overflow-auto rounded-2xl bg-stone-50 bg-opacity-20 p-2 drop-shadow-lg">
           <div className="flex flex-row">
             <h3 className="text-md font-semibold drop-shadow-sm">Octave</h3>
             <select
