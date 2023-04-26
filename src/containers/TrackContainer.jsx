@@ -3,6 +3,7 @@ import PseudoLexer from "../lib/PseudoLexer";
 import { synths } from "../utils/Synths";
 import * as Tone from "tone";
 import Track from "../presentational/Track";
+import ScaleGenerator from "../lib/ScaleGenerator";
 
 const TrackContainer = ({
   id,
@@ -12,8 +13,9 @@ const TrackContainer = ({
   inputOctave,
   inputSynth,
   inputSpeed,
-  scale,
+  mapping,
   octave,
+  scaleNotes,
 }) => {
   /**
    * HOOKS
