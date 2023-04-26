@@ -23,6 +23,7 @@ class Parser {
           colon: this.containsColon(word),
           exclamation: this.containsExclamation(word),
           question: this.containsQuestionMark(word),
+          hyphen: this.containsHyphen(word),
         });
     }
     return result;
@@ -42,6 +43,14 @@ class Parser {
    */
   containsComma(word) {
     return word.includes(",");
+  }
+
+  /**
+   * @param {String} word
+   * @returns boolean indicating presense of hyphen
+   */
+  containsHyphen(word) {
+    return word.includes("-");
   }
 
   /**
