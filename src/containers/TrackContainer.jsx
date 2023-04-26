@@ -77,9 +77,7 @@ const TrackContainer = ({
         newNotes = lexer.changeSpeed(referenceNotes, newNotes, speed);
       refreshPart(newNotes);
     }
-      }
-    }
-  }, [scale]);
+  }, [mapping]);
 
   // Update the current word index when the current note changes.
   useEffect(() => {
@@ -176,8 +174,19 @@ const TrackContainer = ({
   };
 
   const handleOctaveChange = ({ target }) => {
+    // If the octaves are updated we need to update the notes array
+    // and store the original speed in the reference array
+    let newNotes = scaleGenerator.setOctave(notes, target.value);
+    setReferenceNotes((prev) => {
+      return prev.map((obj, index) => ({ ...obj, note: newNotes[index].note }));
+    });
+
+    // Then update the playing notes array
+    if (speed !== 1)
+      newNotes = lexer.changeSpeed(referenceNotes, newNotes, speed);
     setCurrentOctave(target.value);
-    setNotes(lexer.interpret(text, scale, target.value));
+    setNotes(newNotes);
+    refreshPart(newNotes);
   };
 
   const handleSpeedChange = ({ target }) => {
