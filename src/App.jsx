@@ -4,6 +4,7 @@ import Sidebar from "./containers/Sidebar";
 import Toolbar from "./containers/Toolbar";
 import ScaleGenerator from "./lib/ScaleGenerator";
 import * as Tone from "tone";
+import HelpMenu from "./containers/HelpMenu";
 
 function App() {
   const scaleGenerator = new ScaleGenerator();
@@ -58,6 +59,11 @@ function App() {
     setIsPlayingAll(false);
   };
 
+  const [helpMenu, setHelpMenu] = useState(false);
+  const handleHelp = () => {
+    setHelpMenu(!helpMenu);
+  };
+
   const handleSurprise = () => {
     let scales = scaleGenerator.getScales();
     let notes = scaleGenerator.getChromaticScale();
@@ -75,13 +81,14 @@ function App() {
   };
 
   return (
-    <div className="flex h-full flex-col overflow-x-hidden font-inter">
+    <div className="flex h-full flex-col overflow-hidden font-inter">
       <Toolbar
         handleSideBarOpen={handleSidebarOpen}
         handlePlayAll={handlePlayAll}
         handleStopAll={handleStopAll}
+        handleHelp={handleHelp}
       />
-      <div className="flex h-full flex-row justify-between overflow-x-hidden">
+      <div className="flex h-full flex-row justify-between overflow-y-hidden">
         <Playground
           isPlayingAll={isPlayingAll}
           mapping={mapping}
@@ -102,6 +109,7 @@ function App() {
           handleSurprise={handleSurprise}
           mapping={mapping}
         />
+        <HelpMenu isShowing={helpMenu} handleHelp={handleHelp} />
       </div>
     </div>
   );

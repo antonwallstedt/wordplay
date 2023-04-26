@@ -3,7 +3,12 @@ import { BiEdit } from "react-icons/bi";
 import ButtonPrimary from "../components/ButtonPrimary";
 import * as Tone from "tone";
 
-function Toolbar({ handleSideBarOpen, handlePlayAll, handleStopAll }) {
+function Toolbar({
+  handleSideBarOpen,
+  handlePlayAll,
+  handleStopAll,
+  handleHelp,
+}) {
   Tone.Transport.bpm.value = 90; // Default to 90 bpm
   const handleBpmChange = ({ target }) => {
     Tone.Transport.bpm.value = target.value;
@@ -13,6 +18,11 @@ function Toolbar({ handleSideBarOpen, handlePlayAll, handleStopAll }) {
       <h1 className="absolute left-10 font-caveat text-3xl font-bold drop-shadow-md md:text-4xl">
         WordPlay
       </h1>
+      <ButtonPrimary
+        text="Help!"
+        edit="absolute left-48"
+        handleClick={handleHelp}
+      />
       <div className="flex gap-4">
         <ButtonPrimary text="Play All" handleClick={handlePlayAll} />
         <ButtonPrimary text="Stop All" handleClick={handleStopAll} />
