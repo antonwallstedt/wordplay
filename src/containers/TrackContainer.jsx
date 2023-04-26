@@ -111,7 +111,7 @@ const TrackContainer = ({
     let loopEnd = Tone.Time("1m").toSeconds();
     while (lastNoteTime >= loopEnd) {
       // TODO: Run more tests with this to see what is suitable
-      loopEnd += Tone.Time("2n").toSeconds();
+      loopEnd += Tone.Time("1m").toSeconds();
     }
     return loopEnd;
   };
@@ -158,9 +158,35 @@ const TrackContainer = ({
   };
 
   const handleSpeedChange = ({ target }) => {
-    let newNotes = lexer.changeSpeed(referenceNotes, Number(target.value));
+    let newNotes = lexer.changeSpeed(
+      referenceNotes,
+      notes,
+      Number(target.value)
+    );
     setNotes(newNotes);
     setSpeed(Number(target.value));
+    refreshPart(newNotes);
+  };
+
+  const handleRootShift = ({ target }) => {
+    console.log(referenceNotes.map((obj) => obj.note));
+    let shiftedNotes = scaleGenerator.shiftRoot(
+      referenceNotes,
+      target.value,
+      scaleNotes,
+      currentOctave
+    );
+    console.log(shiftedNotes);
+
+    let newNotes = [...notes].map((obj, index) => {
+      return { ...obj, note: shiftedNotes[index] };
+    });
+
+    if (speed !== 1)
+      newNotes = lexer.changeSpeed(referenceNotes, newNotes, speed);
+
+    setNotes(newNotes);
+    setCurrentRoot(target.value);
     refreshPart(newNotes);
   };
 
