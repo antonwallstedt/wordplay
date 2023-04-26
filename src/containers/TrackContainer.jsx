@@ -88,21 +88,25 @@ const TrackContainer = ({
    * HELPER FUNCTIONS
    */
 
-  // TODO: allow highlight of individual characters
   // TODO: fix issue when you only have one word
-  const highlightWord = (word, index) => {
+  const highlightWord = (obj, index) => {
     return (
-      <span
-        key={index}
-        className={
-          "items-center justify-center rounded-md px-1 text-center font-jetbrains text-xl font-semibold drop-shadow-md " +
-          (isPlaying && index === currentWordIndex
-            ? "bg-green-700 bg-opacity-80"
-            : "")
-        }
-      >
-        {word}
-      </span>
+      <div key={index}>
+        <span
+          key={index}
+          className={
+            "items-center justify-center rounded-md px-[6px] text-center font-jetbrains text-xl font-semibold drop-shadow-md " +
+            (isPlaying && index === currentWordIndex
+              ? "bg-green-700 bg-opacity-80"
+              : "")
+          }
+        >
+          {obj.word}
+        </span>
+        <p className="font-inter text-lg text-stone-900 opacity-60">
+          {obj.note}
+        </p>
+      </div>
     );
   };
 
