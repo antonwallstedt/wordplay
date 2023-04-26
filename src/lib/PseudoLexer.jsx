@@ -73,9 +73,20 @@ class PseudoLexer {
     return result;
   }
 
-  changeSpeed(referenceNotes, amount) {
-    let newNotes = [...referenceNotes];
-    newNotes = newNotes.map((obj) => ({ ...obj, time: obj.time * amount }));
+  /**
+   * Changes the speed of the notes. Larger values means extending
+   * the timing, smaller means shortening the timing.
+   * @param {Array} referenceNotes original notes that have not been modified
+   * @param {Number} amount to scale the speed by
+   * @returns array of notes with modified timing.
+   */
+  changeSpeed(referenceNotes, notes, amount) {
+    let newNotes = [...notes];
+    newNotes = newNotes.map((obj, index) => ({
+      ...obj,
+      note: notes[index].note,
+      time: referenceNotes[index].time * amount,
+    }));
     return newNotes;
   }
 }
