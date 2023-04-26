@@ -43,7 +43,6 @@ class WordSynth {
    * @param {String} userInput
    * @param {Array} scale
    */
-  // TODO: Add support for specifying rhythm yourself.
   parseInput(userInput, scale) {
     let inputNotes = [];
     for (const word of userInput.trim().split(" ")) {
