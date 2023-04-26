@@ -26,7 +26,7 @@ const Track = ({
           {displayText.map((obj, index) => highlightWord(obj, index))}
         </div>
         <input
-          className="mt-5 w-full rounded-md p-1 indent-2 drop-shadow-md"
+          className="mt-5 w-full rounded-md p-2 text-center indent-2 drop-shadow-md"
           maxLength="80"
           placeholder={displayText.map((obj) => obj.word).join(" ")}
           onChange={handleChange}
@@ -68,7 +68,7 @@ const Track = ({
               ))}
             </select>
           </div>
-          <div className="mt-2 flex flex-row">
+          <div className="mt-1 flex flex-row">
             <h3 className="text-md font-semibold drop-shadow-sm">Speed</h3>
             <select
               className="ml-[17px] mt-[3px] h-5 w-[65px] rounded-md bg-stone-50 indent-1"
