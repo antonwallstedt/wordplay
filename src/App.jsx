@@ -66,6 +66,7 @@ function App() {
     setMapping(
       scaleGenerator.createMapping(randRootNote, randScale, Number(randOctave))
     );
+    setScaleNotes(scaleGenerator.createScale(randRootNote, randScale));
   };
 
   return (
@@ -78,7 +79,8 @@ function App() {
       <div className="flex h-full flex-row justify-between overflow-x-hidden">
         <Playground
           isPlayingAll={isPlayingAll}
-          scale={mapping}
+          mapping={mapping}
+          scaleNotes={scaleNotes}
           octave={octave}
           rootNote={rootNote}
         />
