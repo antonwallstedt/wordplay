@@ -3,7 +3,13 @@ import ButtonPrimary from "../components/ButtonPrimary";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
 import TrackContainer from "./TrackContainer";
 
-const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
+const Playground = ({
+  isPlayingAll,
+  mapping,
+  octave,
+  rootNote,
+  scaleNotes,
+}) => {
   const defaultTracks = [
     {
       key: 0,
@@ -35,11 +41,12 @@ const Playground = ({ isPlayingAll, scale, octave, rootNote }) => {
               inputText={track.text}
               onDelete={handleDelete}
               isPlayingAll={isPlayingAll}
-              scale={scale}
+              mapping={mapping}
               octave={octave}
               inputOctave={track.octave}
               inputSynth={track.instrument}
               inputSpeed={track.speed}
+              scaleNotes={scaleNotes}
               rootNote={rootNote}
             />
           ))}

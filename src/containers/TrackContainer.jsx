@@ -174,7 +174,6 @@ const TrackContainer = ({
     setCurrentWordIndex(-1);
   };
 
-  // TODO: Sometimes when you start the track it doesn't start on the first measure
   const handlePlay = () => {
     if (isPlaying) return;
     Tone.start();
@@ -206,7 +205,7 @@ const TrackContainer = ({
 
   return (
     <Track
-      displayText={text}
+      displayText={notes}
       highlightWord={highlightWord}
       handleChange={handleChange}
       handleDelete={handleDelete}
@@ -215,9 +214,12 @@ const TrackContainer = ({
       handlePlay={handlePlay}
       handleStop={handleStop}
       handleSpeedChange={handleSpeedChange}
+      handleRootShift={handleRootShift}
       synth={synth}
+      currentScale={mapping}
       currentOctave={currentOctave}
       currentSpeed={speed}
+      scaleNotes={scaleNotes}
     />
   );
 };

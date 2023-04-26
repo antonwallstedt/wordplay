@@ -9,6 +9,9 @@ function App() {
   const scaleGenerator = new ScaleGenerator();
   const [rootNote, setRootNote] = useState("G");
   const [scale, setScale] = useState("Dorian Mode");
+  const [scaleNotes, setScaleNotes] = useState(() => {
+    return scaleGenerator.createScale(rootNote, scale);
+  });
   const [octave, setOctave] = useState(4);
   const [isPlayingAll, setIsPlayingAll] = useState(false);
   const [mapping, setMapping] = useState(
@@ -18,6 +21,7 @@ function App() {
   const chromaticScale = scaleGenerator.getChromaticScale();
   const handleRootNoteChange = ({ target }) => {
     setRootNote(target.value);
+    setScaleNotes(() => scaleGenerator.createScale(target.value, scale));
     setMapping(() => {
       return scaleGenerator.createMapping(target.value, scale, octave);
     });
@@ -25,6 +29,7 @@ function App() {
 
   const handleScaleChange = ({ target }) => {
     setScale(target.value);
+    setScaleNotes(() => scaleGenerator.createScale(rootNote, target.value));
     setMapping(() =>
       scaleGenerator.createMapping(rootNote, target.value, octave)
     );
