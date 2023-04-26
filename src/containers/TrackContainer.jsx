@@ -36,7 +36,7 @@ const TrackContainer = ({
   });
 
   const [notes, setNotes] = useState(() => {
-    if (inputText) return lexer.interpret(inputText, scale, currentOctave);
+    if (inputText) return lexer.interpret(inputText, mapping, currentOctave);
     else return [];
   });
 
