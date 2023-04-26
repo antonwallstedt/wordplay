@@ -19,11 +19,13 @@ const TrackContainer = ({
    * HOOKS
    */
   const lexer = new PseudoLexer();
+  const scaleGenerator = new ScaleGenerator();
   const [text, setText] = useState(inputText);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentNote, setCurrentNote] = useState({});
   const [part, setPart] = useState(null);
+  const [currentRoot, setCurrentRoot] = useState(scaleNotes[0]);
 
   const [speed, setSpeed] = useState(() => {
     if (inputSpeed) return inputSpeed;
