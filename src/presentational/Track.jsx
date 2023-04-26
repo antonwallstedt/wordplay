@@ -12,8 +12,10 @@ const Track = ({
   synth,
   currentOctave,
   currentSpeed,
+  scaleNotes,
   handleOctaveChange,
   handleSpeedChange,
+  handleRootShift,
   handlePlay,
   handleStop,
 }) => {
@@ -21,9 +23,7 @@ const Track = ({
     <div className="flex w-full items-center justify-center pb-3 text-center">
       <div className="flex w-full flex-col items-center justify-between rounded-3xl bg-gradient-to-b from-stone-400 to-stone-500 px-10 py-5 drop-shadow-lg">
         <div className="flex items-center justify-center">
-          {displayText
-            .split(" ")
-            .map((word, index) => highlightWord(word, index))}
+          {displayText.map((obj, index) => highlightWord(obj, index))}
         </div>
         <input
           className="mt-5 w-full rounded-md p-1 indent-2 drop-shadow-md"
@@ -61,7 +61,7 @@ const Track = ({
               defaultValue={currentOctave}
               onChange={handleOctaveChange}
             >
-              {[2, 3, 4, 5, 6].map((octave, index) => (
+              {[1, 2, 3, 4, 5, 6].map((octave, index) => (
                 <option key={index} value={octave}>
                   {octave}
                 </option>
@@ -78,6 +78,19 @@ const Track = ({
               {[1 / 8, 1 / 4, 1 / 2, 1, 1.5, 2].map((octave, index) => (
                 <option key={index} value={octave}>
                   {octave}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mt-2 flex flex-row">
+            <h3 className="text-md font-semibold drop-shadow-sm">Root</h3>
+            <select
+              className="ml-[30px] mt-[3px] h-5 w-[65px] rounded-md bg-stone-50 indent-1"
+              onChange={handleRootShift}
+            >
+              {scaleNotes.map((note, index) => (
+                <option key={index} value={note}>
+                  {note}
                 </option>
               ))}
             </select>
