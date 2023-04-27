@@ -26,8 +26,11 @@ const Playground = ({
               inputOctave={track.octave}
               inputSynth={track.instrument}
               inputSpeed={track.speed}
+              inputVolume={track.volume}
+              inputRoot={track.root}
               scaleNotes={scaleNotes}
               rootNote={rootNote}
+              isTrackMuted={track.isMuted}
             />
           ))}
         </div>

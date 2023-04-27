@@ -8,11 +8,15 @@ import ScaleGenerator from "../lib/ScaleGenerator";
 const TrackContainer = ({
   id,
   onDelete,
+  onSolo,
+  isTrackMuted,
   isPlayingAll,
   inputText,
   inputOctave,
   inputSynth,
   inputSpeed,
+  inputVolume,
+  inputRoot,
   mapping,
   octave,
   scaleNotes,
@@ -22,14 +26,24 @@ const TrackContainer = ({
    */
   const lexer = new PseudoLexer();
   const scaleGenerator = new ScaleGenerator();
-  const [vol, setVol] = useState(0);
   const [text, setText] = useState(inputText);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentNote, setCurrentNote] = useState({});
   const [part, setPart] = useState(null);
-  const [currentRoot, setCurrentRoot] = useState(scaleNotes[0]);
   const [trackSynth, setTrackSynth] = useState();
+  const [isMuted, setIsMuted] = useState(false);
+  const [isSoloed, setIsSoloed] = useState(false);
+
+  const [vol, setVol] = useState(() => {
+    if (inputVolume) return Number(inputVolume);
+    else return 0;
+  });
+
+  const [currentRoot, setCurrentRoot] = useState(() => {
+    if (inputRoot) return inputRoot;
+    else return scaleNotes[0];
+  });
 
   const [speed, setSpeed] = useState(() => {
     if (inputSpeed) return inputSpeed;
@@ -251,6 +265,7 @@ const TrackContainer = ({
     const currentSynth = synths
       .find((s) => s.name === synth)
       .synth.toDestination();
+    currentSynth.volume.value = Number(vol);
     setTrackSynth(currentSynth);
 
     const notePart = new Tone.Part((time, value) => {
@@ -294,6 +309,7 @@ const TrackContainer = ({
       currentScale={mapping}
       currentOctave={currentOctave}
       currentSpeed={speed}
+      currentRoot={currentRoot}
       scaleNotes={scaleNotes}
     />
   );

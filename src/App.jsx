@@ -5,6 +5,7 @@ import Toolbar from "./containers/Toolbar";
 import ScaleGenerator from "./lib/ScaleGenerator";
 import * as Tone from "tone";
 import HelpMenu from "./containers/HelpMenu";
+import { tutorialTracks } from "./utils/TutorialTracks";
 
 function App() {
   const scaleGenerator = new ScaleGenerator();
@@ -37,7 +38,7 @@ function App() {
       return scaleGenerator.createMapping(target.value, scale, octave);
     });
   };
-  const [tracks, setTracks] = useState(defaultTracks);
+  const [tracks, setTracks] = useState(tutorialTracks);
 
   const handleAdd = () => {
     setTracks([
@@ -48,7 +49,10 @@ function App() {
         text: "",
         octave: octave,
         instrument: "Synth",
+        root: rootNote,
+        volume: 0,
         speed: 1,
+        isMuted: false,
       },
     ]);
   };
