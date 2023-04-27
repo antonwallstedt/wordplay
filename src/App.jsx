@@ -5,21 +5,13 @@ import Toolbar from "./containers/Toolbar";
 import ScaleGenerator from "./lib/ScaleGenerator";
 import * as Tone from "tone";
 import HelpMenu from "./containers/HelpMenu";
+import { tutorialTracks } from "./utils/TutorialTracks";
 
 function App() {
   const scaleGenerator = new ScaleGenerator();
-  const defaultTracks = [
-    {
-      key: 0,
-      id: 0,
-      text: "Hello world; welcome to WordPlay!",
-      octave: 2,
-      instrument: "Synth",
-      speed: 1,
-    },
-  ];
-  const [rootNote, setRootNote] = useState("G");
-  const [scale, setScale] = useState("Dorian Mode");
+  const [cleanUp, setCleanUp] = useState(0);
+  const [rootNote, setRootNote] = useState("Db");
+  const [scale, setScale] = useState("Minor Pentatonic");
   const [scaleNotes, setScaleNotes] = useState(() => {
     return scaleGenerator.createScale(rootNote, scale);
   });
@@ -37,7 +29,7 @@ function App() {
       return scaleGenerator.createMapping(target.value, scale, octave);
     });
   };
-  const [tracks, setTracks] = useState(defaultTracks);
+  const [tracks, setTracks] = useState(tutorialTracks);
 
   const handleAdd = () => {
     setTracks([
@@ -48,13 +40,26 @@ function App() {
         text: "",
         octave: octave,
         instrument: "Synth",
+        root: rootNote,
+        volume: 0,
         speed: 1,
+        isMuted: false,
       },
     ]);
   };
 
   const handleDelete = (trackId) => {
     setTracks((prev) => prev.filter((track) => track.id !== trackId));
+  };
+
+  const handleSolo = (trackId) => {
+    setTracks((prev) => {
+      let updatedTracks = prev.map((obj) => {
+        if (obj.id !== trackId) return { ...obj, isMuted: !obj.isMuted };
+        else return obj;
+      });
+      return updatedTracks;
+    });
   };
 
   const handleScaleChange = ({ target }) => {
@@ -93,6 +98,14 @@ function App() {
     setHelpMenu(!helpMenu);
   };
 
+  const handleClearAll = () => {
+    setCleanUp((prev) => {
+      return prev + 1;
+    });
+    handleStopAll();
+    setTracks([]);
+  };
+
   const handleSurprise = () => {
     let scales = scaleGenerator.getScales();
     let notes = scaleGenerator.getChromaticScale();
@@ -117,16 +130,19 @@ function App() {
         handleStopAll={handleStopAll}
         handleHelp={handleHelp}
         handleAdd={handleAdd}
+        handleClearAll={handleClearAll}
       />
       <div className="flex h-full flex-row justify-between overflow-y-hidden">
         <Playground
           handleDelete={handleDelete}
+          handleSolo={handleSolo}
           tracks={tracks}
           isPlayingAll={isPlayingAll}
           mapping={mapping}
           scaleNotes={scaleNotes}
           octave={octave}
           rootNote={rootNote}
+          cleanUp={cleanUp}
         />
         <Sidebar
           isShowing={sidebarOpen}

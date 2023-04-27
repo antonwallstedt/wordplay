@@ -13,6 +13,7 @@ const Track = ({
   volume,
   currentOctave,
   currentSpeed,
+  currentRoot,
   scaleNotes,
   handleOctaveChange,
   handleSpeedChange,
@@ -21,6 +22,10 @@ const Track = ({
   handleKeyPress,
   handlePlay,
   handleStop,
+  handleMute,
+  isMuted,
+  handleSolo,
+  isSoloed,
 }) => {
   return (
     <div className="flex w-full items-center justify-center pb-3 text-center">
@@ -44,6 +49,24 @@ const Track = ({
               icon={<AiOutlineDelete size="20px" />}
               handleClick={handleDelete}
             />
+            <button
+              className={
+                "rounded-lg p-2 font-semibold drop-shadow-md " +
+                (isMuted ? "bg-stone-500" : "bg-stone-300")
+              }
+              onClick={handleMute}
+            >
+              Mute
+            </button>
+            <button
+              className={
+                "rounded-lg p-2 font-semibold drop-shadow-md " +
+                (!isSoloed ? "bg-stone-300" : "bg-stone-100")
+              }
+              onClick={handleSolo}
+            >
+              Solo
+            </button>
             <select
               className="rounded-md indent-1"
               onChange={handleSynthSelect}
@@ -62,6 +85,7 @@ const Track = ({
             type="range"
             min={-50}
             max={0}
+            value={volume}
             className="-mx-5 -mr-14 mt-5 h-20 w-24 -rotate-90 bg-green-600"
             onChange={handleVolumeChange}
           />
@@ -103,6 +127,7 @@ const Track = ({
             <select
               className="ml-[30px] mt-[3px] h-5 w-[65px] rounded-md bg-stone-50 indent-1"
               onChange={handleRootShift}
+              defaultValue={currentRoot}
             >
               {scaleNotes.map((note, index) => (
                 <option key={index} value={note}>

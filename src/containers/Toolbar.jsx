@@ -10,6 +10,7 @@ function Toolbar({
   handleStopAll,
   handleHelp,
   handleAdd,
+  handleClearAll,
 }) {
   Tone.Transport.bpm.value = 90; // Default to 90 bpm
   const handleBpmChange = ({ target }) => {
@@ -34,6 +35,7 @@ function Toolbar({
         />
         <ButtonPrimary text="Play All" handleClick={handlePlayAll} />
         <ButtonPrimary text="Stop All" handleClick={handleStopAll} />
+        <ButtonPrimary text="Clear All" handleClick={handleClearAll} />
         <h2 className="mt-1 text-lg font-semibold">BPM</h2>
         <input
           className="-ml-2 mt-1 h-7 w-12 rounded-md indent-1"
