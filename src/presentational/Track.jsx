@@ -49,6 +49,24 @@ const Track = ({
               icon={<AiOutlineDelete size="20px" />}
               handleClick={handleDelete}
             />
+            <button
+              className={
+                "rounded-lg p-2 font-semibold drop-shadow-md " +
+                (isMuted ? "bg-stone-500" : "bg-stone-300")
+              }
+              onClick={handleMute}
+            >
+              Mute
+            </button>
+            <button
+              className={
+                "rounded-lg p-2 font-semibold drop-shadow-md " +
+                (!isSoloed ? "bg-stone-300" : "bg-stone-100")
+              }
+              onClick={handleSolo}
+            >
+              Solo
+            </button>
             <select
               className="rounded-md indent-1"
               onChange={handleSynthSelect}

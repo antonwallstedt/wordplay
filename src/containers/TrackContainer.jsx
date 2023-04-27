@@ -73,6 +73,10 @@ const TrackContainer = ({
     else return "Synth";
   });
 
+  useEffect(() => {
+    handleMute();
+  }, [isTrackMuted]);
+
   // Start all tracks, if current track is already playing ignore.
   useEffect(() => {
     if (isPlayingAll && !isPlaying) {
@@ -155,6 +159,23 @@ const TrackContainer = ({
   const handleDelete = () => {
     handleStop();
     onDelete(id);
+  };
+
+  const handleMute = () => {
+    if (!trackSynth) return;
+    if (!isMuted) {
+      console.log("Muting ", id);
+      setIsMuted(!isMuted);
+      trackSynth.volume.value = -10000;
+    } else {
+      setIsMuted(!isMuted);
+      trackSynth.volume.value = vol;
+    }
+  };
+
+  const handleSolo = () => {
+    setIsSoloed(!isSoloed);
+    onSolo(id);
   };
 
   const handleChange = ({ target }) => {
@@ -311,6 +332,10 @@ const TrackContainer = ({
       currentSpeed={speed}
       currentRoot={currentRoot}
       scaleNotes={scaleNotes}
+      handleMute={handleMute}
+      isMuted={isMuted}
+      handleSolo={handleSolo}
+      isSoloed={isSoloed}
     />
   );
 };

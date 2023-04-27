@@ -9,18 +9,8 @@ import { tutorialTracks } from "./utils/TutorialTracks";
 
 function App() {
   const scaleGenerator = new ScaleGenerator();
-  const defaultTracks = [
-    {
-      key: 0,
-      id: 0,
-      text: "Hello world; welcome to WordPlay!",
-      octave: 2,
-      instrument: "Synth",
-      speed: 1,
-    },
-  ];
-  const [rootNote, setRootNote] = useState("G");
-  const [scale, setScale] = useState("Dorian Mode");
+  const [rootNote, setRootNote] = useState("Db");
+  const [scale, setScale] = useState("Minor Pentatonic");
   const [scaleNotes, setScaleNotes] = useState(() => {
     return scaleGenerator.createScale(rootNote, scale);
   });
@@ -59,6 +49,16 @@ function App() {
 
   const handleDelete = (trackId) => {
     setTracks((prev) => prev.filter((track) => track.id !== trackId));
+  };
+
+  const handleSolo = (trackId) => {
+    setTracks((prev) => {
+      let updatedTracks = prev.map((obj) => {
+        if (obj.id !== trackId) return { ...obj, isMuted: !obj.isMuted };
+        else return obj;
+      });
+      return updatedTracks;
+    });
   };
 
   const handleScaleChange = ({ target }) => {
@@ -125,6 +125,7 @@ function App() {
       <div className="flex h-full flex-row justify-between overflow-y-hidden">
         <Playground
           handleDelete={handleDelete}
+          handleSolo={handleSolo}
           tracks={tracks}
           isPlayingAll={isPlayingAll}
           mapping={mapping}

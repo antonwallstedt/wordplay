@@ -3,6 +3,7 @@ import TrackContainer from "./TrackContainer";
 
 const Playground = ({
   handleDelete,
+  handleSolo,
   tracks,
   isPlayingAll,
   mapping,
@@ -20,6 +21,7 @@ const Playground = ({
               id={track.id}
               inputText={track.text}
               onDelete={handleDelete}
+              onSolo={handleSolo}
               isPlayingAll={isPlayingAll}
               mapping={mapping}
               octave={octave}
