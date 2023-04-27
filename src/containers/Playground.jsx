@@ -1,41 +1,37 @@
-import React, { useState } from "react";
-import Track from "./Track";
-import ButtonPrimary from "../components/ButtonPrimary";
-import { MdOutlineAddCircleOutline } from "react-icons/md";
+import React from "react";
+import TrackContainer from "./TrackContainer";
 
-const Playground = ({ isPlayingAll, scale }) => {
-  const defaultTracks = [
-    { key: 0, id: 0, text: "Hello my name is Anton" },
-    { key: 1, id: 1, text: "This is some text" },
-  ];
-  const [tracks, setTracks] = useState(defaultTracks);
-
-  const handleAdd = () => {
-    setTracks([...tracks, { key: tracks.length, id: Date.now(), text: "" }]);
-  };
-
-  const handleDelete = (trackId) => {
-    setTracks((prev) => prev.filter((track) => track.id !== trackId));
-  };
-
+const Playground = ({
+  handleDelete,
+  tracks,
+  isPlayingAll,
+  mapping,
+  octave,
+  rootNote,
+  scaleNotes,
+}) => {
   return (
-    <div className="relative top-0 z-0 flex h-full flex-grow flex-col items-center justify-center bg-gradient-to-br from-white to-amber-50 p-20">
-      {tracks.map((track) => (
-        <Track
-          key={track.key}
-          id={track.id}
-          inputText={track.text}
-          onDelete={handleDelete}
-          isPlayingAll={isPlayingAll}
-          scale={scale}
-        />
-      ))}
-      <ButtonPrimary
-        icon={<MdOutlineAddCircleOutline className="mr-2" size="25px" />}
-        edit="w-30 mb-10 right-10 flex justify-center items-center text-center"
-        text="Add Track"
-        handleClick={handleAdd}
-      />
+    <div className="relative top-0 z-0 flex h-full flex-grow flex-col items-center justify-center bg-gradient-to-br from-white to-amber-50">
+      <div className="flex h-full w-full flex-wrap items-center justify-center">
+        <div className="grid h-full w-full grid-cols-1 overflow-auto p-10">
+          {tracks.map((track) => (
+            <TrackContainer
+              key={track.key}
+              id={track.id}
+              inputText={track.text}
+              onDelete={handleDelete}
+              isPlayingAll={isPlayingAll}
+              mapping={mapping}
+              octave={octave}
+              inputOctave={track.octave}
+              inputSynth={track.instrument}
+              inputSpeed={track.speed}
+              scaleNotes={scaleNotes}
+              rootNote={rootNote}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

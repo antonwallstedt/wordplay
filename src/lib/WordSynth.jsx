@@ -27,7 +27,7 @@ class WordSynth {
    */
   getNote(word, scale) {
     let letterIndices = [];
-    for (const letter of word) {
+    for (const letter of word.toLowerCase()) {
       letterIndices.push(this.alphabet.indexOf(letter));
     }
     let note =
@@ -43,7 +43,6 @@ class WordSynth {
    * @param {String} userInput
    * @param {Array} scale
    */
-  // TODO: Add support for specifying rhythm yourself.
   parseInput(userInput, scale) {
     let inputNotes = [];
     for (const word of userInput.trim().split(" ")) {

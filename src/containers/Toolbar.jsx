@@ -1,9 +1,16 @@
 import React from "react";
 import { BiEdit } from "react-icons/bi";
 import ButtonPrimary from "../components/ButtonPrimary";
+import { MdOutlineAddCircleOutline } from "react-icons/md";
 import * as Tone from "tone";
 
-function Toolbar({ handleSideBarOpen, handlePlayAll, handleStopAll }) {
+function Toolbar({
+  handleSideBarOpen,
+  handlePlayAll,
+  handleStopAll,
+  handleHelp,
+  handleAdd,
+}) {
   Tone.Transport.bpm.value = 90; // Default to 90 bpm
   const handleBpmChange = ({ target }) => {
     Tone.Transport.bpm.value = target.value;
@@ -13,13 +20,24 @@ function Toolbar({ handleSideBarOpen, handlePlayAll, handleStopAll }) {
       <h1 className="absolute left-10 font-caveat text-3xl font-bold drop-shadow-md md:text-4xl">
         WordPlay
       </h1>
+      <ButtonPrimary
+        text="Help!"
+        edit="absolute left-48"
+        handleClick={handleHelp}
+      />
       <div className="flex gap-4">
+        <ButtonPrimary
+          icon={<MdOutlineAddCircleOutline className="mr-2" size="25px" />}
+          edit="w-30 right-10 flex justify-center items-center text-center"
+          text="Add Track"
+          handleClick={handleAdd}
+        />
         <ButtonPrimary text="Play All" handleClick={handlePlayAll} />
         <ButtonPrimary text="Stop All" handleClick={handleStopAll} />
         <h2 className="mt-1 text-lg font-semibold">BPM</h2>
         <input
           className="-ml-2 mt-1 h-7 w-12 rounded-md indent-1"
-          placeholder="90"
+          defaultValue="90"
           onChange={handleBpmChange}
         />
       </div>
