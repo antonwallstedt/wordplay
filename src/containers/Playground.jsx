@@ -10,6 +10,7 @@ const Playground = ({
   octave,
   rootNote,
   scaleNotes,
+  cleanUp,
 }) => {
   return (
     <div className="relative top-0 z-0 flex h-full flex-grow flex-col items-center justify-center bg-gradient-to-br from-white to-amber-50">
@@ -33,6 +34,7 @@ const Playground = ({
               scaleNotes={scaleNotes}
               rootNote={rootNote}
               isTrackMuted={track.isMuted}
+              cleanUp={cleanUp}
             />
           ))}
         </div>

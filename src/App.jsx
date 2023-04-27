@@ -9,6 +9,7 @@ import { tutorialTracks } from "./utils/TutorialTracks";
 
 function App() {
   const scaleGenerator = new ScaleGenerator();
+  const [cleanUp, setCleanUp] = useState(0);
   const [rootNote, setRootNote] = useState("Db");
   const [scale, setScale] = useState("Minor Pentatonic");
   const [scaleNotes, setScaleNotes] = useState(() => {
@@ -97,6 +98,14 @@ function App() {
     setHelpMenu(!helpMenu);
   };
 
+  const handleClearAll = () => {
+    setCleanUp((prev) => {
+      return prev + 1;
+    });
+    handleStopAll();
+    setTracks([]);
+  };
+
   const handleSurprise = () => {
     let scales = scaleGenerator.getScales();
     let notes = scaleGenerator.getChromaticScale();
@@ -121,6 +130,7 @@ function App() {
         handleStopAll={handleStopAll}
         handleHelp={handleHelp}
         handleAdd={handleAdd}
+        handleClearAll={handleClearAll}
       />
       <div className="flex h-full flex-row justify-between overflow-y-hidden">
         <Playground
@@ -132,6 +142,7 @@ function App() {
           scaleNotes={scaleNotes}
           octave={octave}
           rootNote={rootNote}
+          cleanUp={cleanUp}
         />
         <Sidebar
           isShowing={sidebarOpen}

@@ -20,6 +20,7 @@ const TrackContainer = ({
   mapping,
   octave,
   scaleNotes,
+  cleanUp,
 }) => {
   /**
    * HOOKS
@@ -76,6 +77,10 @@ const TrackContainer = ({
   useEffect(() => {
     handleMute();
   }, [isTrackMuted]);
+
+  useEffect(() => {
+    handleStop();
+  }, [cleanUp]);
 
   // Start all tracks, if current track is already playing ignore.
   useEffect(() => {
