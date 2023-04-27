@@ -22,12 +22,14 @@ const TrackContainer = ({
    */
   const lexer = new PseudoLexer();
   const scaleGenerator = new ScaleGenerator();
+  const [vol, setVol] = useState(0);
   const [text, setText] = useState(inputText);
   const [currentWordIndex, setCurrentWordIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentNote, setCurrentNote] = useState({});
   const [part, setPart] = useState(null);
   const [currentRoot, setCurrentRoot] = useState(scaleNotes[0]);
+  const [trackSynth, setTrackSynth] = useState();
 
   const [speed, setSpeed] = useState(() => {
     if (inputSpeed) return inputSpeed;
@@ -170,7 +172,9 @@ const TrackContainer = ({
   };
 
   const handleSynthSelect = ({ target }) => {
-    setSynth(synths.find((synth) => synth.name === target.value).name);
+    let newSynth = synths.find((synth) => synth.name === target.value).name;
+    setSynth(newSynth);
+    setTrackSynth(newSynth);
   };
 
   const handleOctaveChange = ({ target }) => {
@@ -208,7 +212,6 @@ const TrackContainer = ({
       scaleNotes,
       currentOctave
     );
-    console.log(shiftedNotes);
 
     let newNotes = [...notes].map((obj, index) => {
       return { ...obj, note: shiftedNotes[index] };
@@ -232,12 +235,24 @@ const TrackContainer = ({
     setCurrentWordIndex(-1);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter" && !isPlaying) {
+      handlePlay();
+    }
+  };
+
+  const handleVolumeChange = ({ target }) => {
+    setVol(Number(target.value));
+    trackSynth.volume.value = Number(target.value);
+  };
+
   const handlePlay = () => {
     if (isPlaying) return;
     Tone.start();
     const currentSynth = synths
       .find((s) => s.name === synth)
       .synth.toDestination();
+    setTrackSynth(currentSynth);
 
     const notePart = new Tone.Part((time, value) => {
       currentSynth.triggerAttackRelease(
@@ -273,7 +288,10 @@ const TrackContainer = ({
       handleStop={handleStop}
       handleSpeedChange={handleSpeedChange}
       handleRootShift={handleRootShift}
+      handleVolumeChange={handleVolumeChange}
+      handleKeyPress={handleKeyPress}
       synth={synth}
+      volume={vol}
       currentScale={mapping}
       currentOctave={currentOctave}
       currentSpeed={speed}
