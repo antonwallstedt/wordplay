@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ButtonSecondary from "../components/ButtonSecondary";
 import { FaRegSurprise } from "react-icons/fa";
 
@@ -16,6 +16,11 @@ const Sidebar = ({
   mapping,
 }) => {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  const [mappingExport, setMappingExport] = useState(false);
+  const handleMappingExport = () => {
+    setMappingExport(!mappingExport);
+  };
   return (
     <div
       className={
@@ -78,6 +83,22 @@ const Sidebar = ({
         handleClick={handleSurprise}
       />
       <h2 className="text-xl font-semibold drop-shadow-sm">Mapping</h2>
+      <ButtonSecondary
+        text="Export Mapping"
+        edit={"w-30 mt-5 right-10 flex justify-center items-center text-center"}
+        handleClick={handleMappingExport}
+      />
+      {mappingExport && (
+        <div className="absolute h-[300px] w-[304px] -translate-x-80 translate-y-60 rounded-lg bg-stone-200 drop-shadow-md">
+          <div className="h-full w-full overflow-auto p-5">
+            {mapping.map((note, index) => (
+              <p className="font-base text-lg">
+                {alphabet[index]}: {note}
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="mt-4 h-full overflow-y-auto rounded-lg bg-stone-100 shadow-sm">
         <ul className="p-5 drop-shadow-md">
           {mapping.map((note, index) => (

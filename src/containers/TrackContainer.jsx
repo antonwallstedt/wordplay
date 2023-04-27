@@ -164,9 +164,8 @@ const TrackContainer = ({
     }
 
     // Then we can modify it and set the speed of the notes playing
-    if (speed !== 1) newNotes = lexer.changeSpeed(newNotes, notes, speed);
+    if (speed !== 1) newNotes = lexer.changeSpeed(newNotes, newNotes, speed);
     setNotes(newNotes);
-    console.log(newNotes);
     setText(target.value);
     refreshPart(newNotes);
   };
