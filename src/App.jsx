@@ -8,6 +8,16 @@ import HelpMenu from "./containers/HelpMenu";
 
 function App() {
   const scaleGenerator = new ScaleGenerator();
+  const defaultTracks = [
+    {
+      key: 0,
+      id: 0,
+      text: "Hello world; welcome to WordPlay!",
+      octave: 2,
+      instrument: "Synth",
+      speed: 1,
+    },
+  ];
   const [rootNote, setRootNote] = useState("G");
   const [scale, setScale] = useState("Dorian Mode");
   const [scaleNotes, setScaleNotes] = useState(() => {
@@ -26,6 +36,25 @@ function App() {
     setMapping(() => {
       return scaleGenerator.createMapping(target.value, scale, octave);
     });
+  };
+  const [tracks, setTracks] = useState(defaultTracks);
+
+  const handleAdd = () => {
+    setTracks([
+      ...tracks,
+      {
+        key: tracks.length,
+        id: Date.now(),
+        text: "",
+        octave: octave,
+        instrument: "Synth",
+        speed: 1,
+      },
+    ]);
+  };
+
+  const handleDelete = (trackId) => {
+    setTracks((prev) => prev.filter((track) => track.id !== trackId));
   };
 
   const handleScaleChange = ({ target }) => {
@@ -87,9 +116,12 @@ function App() {
         handlePlayAll={handlePlayAll}
         handleStopAll={handleStopAll}
         handleHelp={handleHelp}
+        handleAdd={handleAdd}
       />
       <div className="flex h-full flex-row justify-between overflow-y-hidden">
         <Playground
+          handleDelete={handleDelete}
+          tracks={tracks}
           isPlayingAll={isPlayingAll}
           mapping={mapping}
           scaleNotes={scaleNotes}
