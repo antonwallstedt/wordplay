@@ -32,7 +32,6 @@ const TrackContainer = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentNote, setCurrentNote] = useState({});
   const [part, setPart] = useState(null);
-  const [trackSynth, setTrackSynth] = useState();
   const [isMuted, setIsMuted] = useState(false);
   const [isSoloed, setIsSoloed] = useState(false);
 
@@ -56,17 +55,26 @@ const TrackContainer = ({
     else return octave;
   });
 
-  const [notes, setNotes] = useState(() => {
-    if (inputText) return lexer.interpret(inputText, mapping, currentOctave);
-    else return [];
-  });
-
   // When changing the speed, we don't want to modify
   // our original array of notes, since it applies a scalar
   // it will not be in relation to the "original notes"
   // so we keep a separate state as reference that never changes.
-  const [referenceNotes, setReferenceNotes] = useState(notes);
+  const [referenceNotes, setReferenceNotes] = useState([]);
 
+  const [notes, setNotes] = useState(() => {
+    if (inputText) {
+      let notes = lexer.interpret(inputText, mapping, currentOctave);
+      setReferenceNotes(notes);
+      if (Number(inputSpeed) === 1) {
+        return notes;
+      } else {
+        notes = lexer.changeSpeed(notes, notes, Number(inputSpeed));
+        return notes;
+      }
+    } else return [];
+  });
+
+  const [trackSynth, setTrackSynth] = useState();
   const [synth, setSynth] = useState(() => {
     // If a synth is pre-supplied use that, otherwise
     // resort to default "Synth"
@@ -96,10 +104,11 @@ const TrackContainer = ({
   useEffect(() => {
     if (text) {
       let newNotes = lexer.interpret(text, mapping, currentOctave);
-      setNotes(newNotes);
       setReferenceNotes(newNotes);
-      if (speed !== 1)
+      if (speed !== 1) {
         newNotes = lexer.changeSpeed(referenceNotes, newNotes, speed);
+      }
+      setNotes(newNotes);
       refreshPart(newNotes);
     }
   }, [mapping]);
@@ -211,9 +220,14 @@ const TrackContainer = ({
   };
 
   const handleSynthSelect = ({ target }) => {
-    let newSynth = synths.find((synth) => synth.name === target.value).name;
-    setSynth(newSynth);
-    setTrackSynth(newSynth);
+    let newSynth = synths.find((synth) => synth.name === target.value);
+
+    setSynth(newSynth.name);
+    if (trackSynth) {
+      trackSynth.dispose();
+      trackSynth.disconnect();
+      setTrackSynth(newSynth.synth);
+    }
   };
 
   const handleOctaveChange = ({ target }) => {
@@ -291,8 +305,11 @@ const TrackContainer = ({
     const currentSynth = synths
       .find((s) => s.name === synth)
       .synth.toDestination();
+    currentSynth.name = `${synth}${id}`;
     currentSynth.volume.value = Number(vol);
     setTrackSynth(currentSynth);
+
+    console.log(currentSynth);
 
     const notePart = new Tone.Part((time, value) => {
       currentSynth.triggerAttackRelease(
@@ -341,6 +358,7 @@ const TrackContainer = ({
       isMuted={isMuted}
       handleSolo={handleSolo}
       isSoloed={isSoloed}
+      isPlaying={isPlaying}
     />
   );
 };
