@@ -26,6 +26,7 @@ const Track = ({
   isMuted,
   handleSolo,
   isSoloed,
+  isPlaying,
 }) => {
   return (
     <div className="flex w-full items-center justify-center pb-3 text-center">
@@ -71,6 +72,7 @@ const Track = ({
               className="rounded-md indent-1"
               onChange={handleSynthSelect}
               defaultValue={synth}
+              disabled={isPlaying}
             >
               {synths.map(({ name, synth }, index) => (
                 <option key={index} value={name}>
