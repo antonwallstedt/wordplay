@@ -15,7 +15,7 @@ export const tutorialTracks = [
     id: 1,
     text: "If we use some characters like this... We can insert pauses",
     octave: 3,
-    speed: 1,
+    speed: 0.5,
     root: "",
     instrument: "AM",
     volume: 0,
@@ -57,7 +57,7 @@ export const tutorialTracks = [
   {
     key: 5,
     id: 5,
-    text: "Need help? Check the help... menu by pressing the button in the nav bar",
+    text: "Need help? Check the help... menu in the navbar",
     octave: 1,
     speed: 0.5,
     root: "",
